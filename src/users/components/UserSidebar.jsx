@@ -60,7 +60,7 @@ function UserSidebar() {
 
                 <div className='flex flex-col items-start mx-3 gap-3'>
                     <h2 className='text-xs mb-0 text-gray-800'>OVER VIEW</h2>
-                    <Link to={'/dashboard'}>
+                    <Link to={'/dashboard'} className='w-full'>
                     <Button  className='flex gap-3 items-center justify-start h-12 p-2 hover:bg-linear-to-r/srgb from-yellow-600 to-green-700 w-full rounded-2xl ' style={{ backgroundColor: '#2c6e49' }}>
                         <FcHome className='text-3xl border rounded-4xl p-1 border-yellow-400 bg-amber-100' />
                         <h3 className='text-md font-bold text-yellow-200'>Dashboard</h3>
