@@ -3,6 +3,7 @@ import { Button, Navbar, NavbarBrand, NavbarCollapse, NavbarLink, NavbarToggle }
 import { MdNotificationsActive } from "react-icons/md";
 import { GoDotFill } from "react-icons/go";
 import { serverURL } from '../../../service/serverURL';
+import { useNavigate } from 'react-router-dom';
 
 
 function HelperTopbar({helperDetails}) {
@@ -17,6 +18,7 @@ function HelperTopbar({helperDetails}) {
 
   // })
   const [preview, setPreview] = React.useState("")
+  const navigate=useNavigate()
 
   // useEffect(() => {
 
@@ -40,7 +42,7 @@ function HelperTopbar({helperDetails}) {
 
   const handleSigout=()=>{
 
-    window.location='/login'
+   navigate('/login')
 
   }
 
