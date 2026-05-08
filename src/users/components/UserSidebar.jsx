@@ -82,21 +82,21 @@ function UserSidebar() {
 
                 <div className='flex flex-col items-start mx-3 gap-3 mt-5'>
                     <h2 className='text-xs mb-0 text-gray-800'>CARE</h2>
-                    <Link to={'/caretask'}>
+                    <Link to={'/caretask'} className='w-full'>
                     
                     <Button  className='flex gap-3 items-center justify-start h-12 p-2 hover:bg-linear-to-r/srgb from-yellow-600 to-green-700 w-full rounded-2xl ' style={{ backgroundColor: '#2c6e49' }}>
                         <TiTick className='text-3xl border rounded-4xl p-1 border-yellow-400 bg-orange-200 text-green-500' />
                         <h3 className='text-md font-bold text-yellow-200'>Care Tasks</h3>
                     </Button>
                     </Link>
-                    <Link to={'/appointment'}>
+                    <Link to={'/appointment'} className='w-full'>
                    
                     <Button className='flex gap-3 items-center justify-start h-12 p-2 hover:bg-linear-to-r/srgb from-yellow-600 to-green-700 w-full rounded-2xl ' style={{ backgroundColor: '#2c6e49' }}>
                         <FaHospital className='text-3xl border rounded-4xl p-1 border-yellow-400 bg-amber-100 text-red-600' />
                         <h3 className='text-md font-bold text-yellow-200'>Appointments</h3>
                     </Button>
                      </Link>
-                     <Link to={'/medicines'}>
+                     <Link to={'/medicines'} className='w-full'>
                     <Button  className='flex gap-3 justify-start p-2 items-center h-12  w-full rounded-2xl hover:bg-linear-to-r/srgb from-yellow-600 to-green-700' style={{ backgroundColor: '#2c6e49' }}>
                         <GiMedicines className='text-3xl border rounded-4xl p-1 border-yellow-400 bg-amber-100 text-yellow-600' />
                         <h3 className='text-md font-bold text-yellow-200'>Medicines</h3>

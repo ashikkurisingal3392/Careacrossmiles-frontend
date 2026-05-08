@@ -41,7 +41,7 @@ function HelperTopbar({helperDetails}) {
   // }, [])
 
   const handleSigout=()=>{
-
+   sessionStorage.clear()
    navigate('/login')
 
   }
