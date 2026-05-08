@@ -1,5 +1,6 @@
 import React from 'react'
 import { Button, Navbar, NavbarBrand, NavbarCollapse, NavbarLink, NavbarToggle } from "flowbite-react";
+import { Link } from 'react-router-dom';
 
 function Header() {
   return (
@@ -10,7 +11,9 @@ function Header() {
         <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-black">Care Across Miles</span>
       </NavbarBrand>
       <div className="flex md:order-2 gap-2">
-        <Button color="green" className='hover:border-2! ' outline style={{borderColor:'#e5c185'}} href='/login'>Sign In</Button>
+       <Link to={'/login'}>
+       <Button color="green" className='hover:border-2! ' outline style={{borderColor:'#e5c185'}} >Sign In</Button>
+       </Link> 
         <Button  style={{backgroundColor:'#004343'}} className='hover:bg-green-700!'>Get started</Button>
         <NavbarToggle />
       </div>
