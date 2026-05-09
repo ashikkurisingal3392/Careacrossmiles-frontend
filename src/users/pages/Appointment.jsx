@@ -9,12 +9,22 @@ import { Button, Label, Select, Textarea, TextInput } from 'flowbite-react';
 import { Dropdown, DropdownItem } from "flowbite-react";
 import { IoIosAdd } from "react-icons/io";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
-import { bookAppointmentAPI, getAllAppointmentsAPI, getAllDoctorsAPI } from '../../../service/allAPIs';
+import { addDoctorAPI, bookAppointmentAPI, getAllAppointmentsAPI, getAllDoctorsAPI, updateAppointmentAPI } from '../../../service/allAPIs';
 
 function Appointment() {
 
   const [openModal, setOpenModal] = useState(false);
+  //update appointment date
+  const[openUpdateAppointment,setOpenUpdateAppointment]=useState(false)
+  const[updatedDate,setUpdatedDate]=useState("")
+  const [selectedAppointmentId, setSelectedAppointmentId] = useState(null);
+
   const [doctors, setDoctors] = useState([])
+
+  const [addDoctor, setAddDoctor] = useState({
+
+    fullName: "", specialization: "", hospitalName: "", location: "", fee: ""
+  })
 
   const [appointment, setAppointment] = useState({
 
@@ -32,6 +42,9 @@ function Appointment() {
   }
   const handleModalClose = () => {
     setOpenModal(false)
+  }
+   const handleAppointmentModalClose = () => {
+    setOpenUpdateAppointment(false)
   }
 
   const getAllDoctors = async () => {
@@ -56,6 +69,7 @@ function Appointment() {
     }
   }
 
+  //add an appointment
   const handleBooking = async () => {
 
     console.log(appointment);
@@ -87,7 +101,22 @@ function Appointment() {
 
           alert(response.data.message)
 
+          setAppointment({
+
+            doctorID: "",
+            patientName: "",
+            appointmentDate: "",
+            notes: ""
+
+          })
+
+
+
+          getAllAppointments()
+
         }
+
+
       }
       catch (err) {
 
@@ -127,6 +156,93 @@ function Appointment() {
       console.log(response.data.message);
     }
   }
+
+
+  //add a doctor
+  const handleAddDoctor = async () => {
+
+    try {
+
+      const token = sessionStorage.getItem('token')
+      console.log("token :", token);
+
+      const reqHeader = {
+        Authorization: `Bearer ${token}`
+      }
+
+      const reqBody = {
+        fullName: addDoctor.fullName,
+        specialization: addDoctor.specialization,
+        hospitalName: addDoctor.hospitalName,
+        location: addDoctor.location,
+        fee: addDoctor.fee,
+
+      }
+
+      const response = await addDoctorAPI(reqBody, reqHeader)
+      console.log(response);
+      if (response.status == 200) {
+        alert(response.data.message)
+
+        setAddDoctor({
+          fullName: "", specialization: "", hospitalName: "", location: "", fee: ""
+        })
+        getAllDoctors();
+      }
+      openModal(false)
+
+
+    }
+    catch (err) {
+
+      console.log(err);
+      alert(err.response.data.message)
+
+    }
+
+
+  }
+
+  //reschedule appointment
+  const updateAppointment = async () => {
+
+
+    const { appointmentDate } = appointment
+
+    try {
+
+      const token = sessionStorage.getItem('token')
+      console.log("token :", token);
+
+      const reqHeader = {
+        Authorization: `Bearer ${token}`
+      }
+
+      const reqBody = {
+
+        appointmentDate: updatedDate
+      }
+     
+      console.log(reqBody);
+      console.log(selectedAppointmentId);
+      
+      const response = await updateAppointmentAPI(selectedAppointmentId,reqBody,reqHeader)
+      console.log(response);
+      if(response.status ==200){
+
+        alert(response.data.message)
+        setOpenUpdateAppointment(false)
+      }
+
+
+    }
+    catch (err) {
+      console.log(err);
+      console.log(err.response.data.message);
+    }
+  }
+
+
 
   useEffect(() => {
     getAllDoctors()
@@ -170,12 +286,12 @@ function Appointment() {
               <div className='flex items-center  gap-2'>
                 <div className='flex flex-col items-center gap-1 rounded-2xl p-3 w-24' style={{ borderColor: '#F9C74F', backgroundColor: '#e5c185', opacity: '.9' }}>
                   <button className='text-3xl ' >{new Date().getDate()}</button>
-                  <h6 className='text-xs'>{new Date().toLocaleDateString("en-GB",{month:'short'})}</h6>
+                  <h6 className='text-xs'>{new Date().toLocaleDateString("en-GB", { month: 'short' })}</h6>
                 </div>
 
                 <div className='flex flex-col items-center gap-1 rounded-2xl p-3 w-24' style={{ borderColor: '#F9C74F', backgroundColor: '#e5c185', opacity: '.9' }}>
                   <button className='text-3xl '>{showAppointments.length}</button>
-                  <h6 className='text-xs'>Total {new Date().toLocaleDateString("en-GB",{year:'numeric'})}</h6>
+                  <h6 className='text-xs'>Total {new Date().toLocaleDateString("en-GB", { year: 'numeric' })}</h6>
                 </div>
                 <div className='flex flex-col items-center gap-1 rounded-2xl p-3 w-24' style={{ borderColor: '#F9C74F', backgroundColor: '#e5c185', opacity: '.9' }}>
                   <button className='text-3xl '>{doctors.length}</button>
@@ -192,12 +308,12 @@ function Appointment() {
               <div className='grid sm:grid-cols-1 md:grid-cols-2 gap-3'>
                 {
                   showAppointments.length > 0 ?
-                    showAppointments.map(item => (
-                      <div className='border rounded-2xl p-3 border-white bg-white shadow-xl transition delay-50 duration-300 ease-in-out hover:-translate-y-1 hover:scale-100 ' style={{ borderColor: "#e5c185" }}>
+                    showAppointments.map((item, index) => (
+                      <div key={index} className='border rounded-2xl p-3 border-white bg-white shadow-xl transition delay-50 duration-300 ease-in-out hover:-translate-y-1 hover:scale-100 ' style={{ borderColor: "#e5c185" }}>
                         <div className='flex flex-col mb-2'>
-                          <h3 className='text-xs text-green-600 mb-2'>{item.doctorID.specialization}</h3>
-                          <h3 className='text-md font-bold mb-2'>{item.doctorID.fullName}</h3>
-                          <h4 className='text-sm text-gray-700'>{item.doctorID.hospitalName},{item.doctorID.location}</h4>
+                          <h3 className='text-xs text-green-600 mb-2'>{item.doctorID?.specialization || "unavailable"}</h3>
+                          <h3 className='text-md font-bold mb-2'>{item.doctorID?.fullName || "Doctor unavailable"}</h3>
+                          <h4 className='text-sm text-gray-700'>{item.doctorID?.hospitalName || "unavailable"},{item.doctorID?.location || "umavailable"}</h4>
                         </div>
                         <div className="h-px bg-yellow-900 opacity-25 my-4"></div>
                         <div className='flex gap-2 text-center mb-2'>
@@ -215,24 +331,17 @@ function Appointment() {
                   </div> */}
                         <div className='flex gap-1 text-center mb-2'>
                           <CiCreditCard1 className='text-gray-700 text-lg' />
-                          <h4 className='text-sm text-gray-700'>Fee: ₹ {item.doctorID.fee}</h4>
+                          <h4 className='text-sm text-gray-700'>Fee: ₹ {item.doctorID?.fee || "--"}</h4>
                         </div>
-                        <div>
-                          <Button color="green" outline className='text-green-700'>Reschedule</Button>
+                        <div className='flex gap-3'>
+                          <Button onClick={()=>{setSelectedAppointmentId(item._id);setOpenUpdateAppointment(true); }} color="green" outline className='text-green-700'>Reschedule</Button>
+                          <Button color="red" outline className='text-red-700'>Cancel</Button>
                         </div>
-
-
-
                       </div>
-
 
                     ))
                     : "No appointments booked"
                 }
-
-
-
-
 
               </div>
 
@@ -261,11 +370,13 @@ function Appointment() {
                 {
 
                   doctors.length > 0 ?
-                    doctors.map(item => (
+                    doctors.map((item, index) => (
 
-                      <div className='flex justify-between gap-2 items-center border  rounded-2xl p-3' style={{ borderColor: "#e5c185" }}>
+                      <div key={index} className='flex justify-between gap-2 items-center border  rounded-2xl p-3' style={{ borderColor: "#e5c185" }}>
                         <div className='flex  gap-2'>
-                          <h3 className='text-3xl text-center rounded-full text-white bg-blue-700 border h-16 w-16 p-3'>LM</h3>
+                          <h3 className='text-3xl text-center rounded-full text-white bg-blue-700 border h-16 w-16 p-3'>
+                            {item.fullName.replace(/^dr\.?\s*/i, "").split(" ").map(word => word[0]).join("").slice(0, 2).toUpperCase()
+                            }</h3>
                           <div>
                             <h4 className='text-lg'>{item.fullName}</h4>
                             <h5 className='text-xs text0gray-700'>{item.specialization}</h5>
@@ -283,14 +394,6 @@ function Appointment() {
                     : "No doctors added"
                 }
 
-
-
-
-
-
-
-
-
               </div>
               {/* book appointment */}
               <div className='rounded-2xl border p-5' style={{ borderColor: "#e5c185" }}>
@@ -301,10 +404,10 @@ function Appointment() {
                   <div className='flex justify-start gap-2'>
                     <div className='w-full '>
                       <Label className='text-black!'>Doctor</Label>
-                      <Select onChange={(e) => setAppointment({ ...appointment, doctorID: e.target.value })} className='bg-white! text-black!   focus:border-green-800! focus:ring-0 ' label="Choose your doctor" dismissOnClick={false}>
+                      <Select onChange={(e) => setAppointment({ ...appointment, doctorID: e.target.value })} value={appointment.doctorID} className='bg-white! text-black!   focus:border-green-800! focus:ring-0 ' label="Choose your doctor" >
                         {
-                          doctors.map(item => (
-                            <option className='text-white bg-green-800 w-48 hover:bg-green-950!' value={item._id}>{item.fullName}</option>
+                          doctors.map((item, index) => (
+                            <option key={index} className='text-white bg-green-800 w-48 hover:bg-green-950!' value={item._id}>{item.fullName}</option>
 
 
                           ))
@@ -313,7 +416,7 @@ function Appointment() {
                     </div>
                     <div className='w-full'>
                       <Label className='text-black!'>Patients</Label>
-                      <Select onChange={(e) => setAppointment({ ...appointment, patientName: e.target.value })} className='bg-white! text-black!   focus:ring-0 ' label="Choose your Patient" dismissOnClick={false}>
+                      <Select onChange={(e) => setAppointment({ ...appointment, patientName: e.target.value })} value={appointment.patientName} className='bg-white! text-black!   focus:ring-0 ' label="Choose your Patient">
 
                         <option className='text-white bg-green-800 w-48 hover:bg-green-950!  '>Father</option>
                         <option className='text-white bg-green-800 w-48 hover:bg-green-950!'>Mother</option>
@@ -326,6 +429,7 @@ function Appointment() {
                     <TextInput
                       onChange={(e) => setAppointment({ ...appointment, appointmentDate: e.target.value })}
                       type="date"
+                      value={appointment.appointmentDate}
                       className="[&>input]:bg-white border-gray-600! border bg-white! mt-3 rounded-lg  w-full"
                     />
                   </div>
@@ -337,7 +441,7 @@ function Appointment() {
                   </Dropdown> */}
                   <div className='mt-4'>
                     <Label className='text-black! '>Note</Label>
-                    <Textarea onChange={(e) => setAppointment({ ...appointment, notes: e.target.value })} className='mt-2 bg-gray-700! border-2 border-gray-600 focus:ring-0 focus:border-green-700! text-white!' placeholder='Note'></Textarea>
+                    <Textarea onChange={(e) => setAppointment({ ...appointment, notes: e.target.value })} value={appointment.notes} className='mt-2 bg-gray-700! border-2 border-gray-600 focus:ring-0 focus:border-green-700! text-white!' placeholder='Note'></Textarea>
                   </div>
 
 
@@ -360,15 +464,15 @@ function Appointment() {
               <ModalBody className='bg-gray-700! h-full'>
                 <div className="space-y-6">
                   <Label>Full Name </Label>
-                  <TextInput placeholder='Mathew Devassey' className=' text-black! border-gray-300! placeholder:bg-white!'  ></TextInput>
+                  <TextInput onChange={(e) => setAddDoctor({ ...addDoctor, fullName: e.target.value })} value={addDoctor.fullName} placeholder='Mathew Devassey' className=' text-black! border-gray-300! placeholder:bg-white!'  ></TextInput>
                   <Label>Specialization  </Label>
-                  <TextInput placeholder='Cardiologist' className=' text-black! border-gray-300! placeholder:bg-white!'  ></TextInput>
+                  <TextInput onChange={(e) => setAddDoctor({ ...addDoctor, specialization: e.target.value })} value={addDoctor.specialization} placeholder='Cardiologist' className=' text-black! border-gray-300! placeholder:bg-white!'  ></TextInput>
                   <Label>Hospital Name </Label>
-                  <TextInput placeholder='Aster Medicity Hospital' className=' text-black! border-gray-300! placeholder:bg-white!'  ></TextInput>
+                  <TextInput onChange={(e) => setAddDoctor({ ...addDoctor, hospitalName: e.target.value })} value={addDoctor.hospitalName} placeholder='Aster Medicity Hospital' className=' text-black! border-gray-300! placeholder:bg-white!'  ></TextInput>
                   <Label>Location  </Label>
-                  <TextInput placeholder='eg:Kochi,Kerala' className=' text-black! border-gray-300! placeholder:bg-white!'  ></TextInput>
+                  <TextInput onChange={(e) => setAddDoctor({ ...addDoctor, location: e.target.value })} value={addDoctor.location} placeholder='eg:Kochi,Kerala' className=' text-black! border-gray-300! placeholder:bg-white!'  ></TextInput>
                   <Label>Fees  </Label>
-                  <TextInput placeholder='eg: 1200' className=' text-black! border-gray-300! placeholder:bg-white!'  ></TextInput>
+                  <TextInput onChange={(e) => setAddDoctor({ ...addDoctor, fee: e.target.value })} value={addDoctor.fee} placeholder='eg: 1200' className=' text-black! border-gray-300! placeholder:bg-white!'  ></TextInput>
 
 
 
@@ -376,10 +480,29 @@ function Appointment() {
                 </div>
               </ModalBody>
               <ModalFooter className='bg-green-900! gap-5'>
-                <Button className='bg-green-700! hover:bg-green-950!' >Add doctor</Button>
+                <Button className='bg-green-700! hover:bg-green-950!' onClick={handleAddDoctor}  >Add doctor</Button>
                 <Button className='bg-red-700! hover:bg-red-950!' onClick={handleModalClose} >Cancel</Button>
 
               </ModalFooter>
+            </Modal>
+
+            {/* modal reschedule appointment */}
+
+            <Modal dismissible show={openUpdateAppointment} onClose={() => setOpenUpdateAppointment(false)}>
+              <ModalHeader className='bg-green-900!'>Reschedule Appointment</ModalHeader>
+              <ModalBody className='bg-gray-700! h-full'>
+                <div className="space-y-6">
+                  <Label>Pick your date</Label>
+                  <TextInput type='date' onChange={(e) => setUpdatedDate(e.target.value)} value={updatedDate} placeholder='Mathew Devassey' className=' text-black! border-gray-300! placeholder:bg-white!'  ></TextInput>
+
+                </div>
+              </ModalBody>
+              <ModalFooter className='bg-green-900! gap-5'>
+                <Button className='bg-green-700! hover:bg-green-950!' onClick={updateAppointment}  >update</Button>
+                <Button className='bg-red-700! hover:bg-red-950!' onClick={handleAppointmentModalClose} >Cancel</Button>
+
+              </ModalFooter>
+
             </Modal>
 
           </div>

@@ -109,7 +109,7 @@ export const getAllDoctorsAPI=async(reqHeader)=>{
     return await commonAPI("GET",`${serverURL}/api/getdoctors`,"",reqHeader)
 
 }
-//book an appointment
+//book a doctor appointment
 
 export const bookAppointmentAPI=async(reqBody,reqHeader)=>{
 
@@ -122,5 +122,20 @@ export const bookAppointmentAPI=async(reqBody,reqHeader)=>{
 export const getAllAppointmentsAPI=async(reqHeader)=>{
 
     return await commonAPI("GET",`${serverURL}/api/getAppointments`,"",reqHeader)
+
+}
+//reschedule/update  appointments 
+
+export const updateAppointmentAPI=async(id,reqBody,reqHeader)=>{
+
+    return await commonAPI("PUT",`${serverURL}/api/updateappointment/${id}`,reqBody,reqHeader)
+
+}
+
+//delete  appointments 
+
+export const deleteAppointmentAPI=async(id,reqHeader)=>{
+
+    return await commonAPI("DELETE",`${serverURL}/api/deleteappointment/${id}`,"",reqHeader)
 
 }
