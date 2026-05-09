@@ -383,7 +383,7 @@ function Auth({ mode,role }) {
                                         </div>
 
                                         :
-                                        <div className="mt-5">
+                                        <div className="mt-5 ">
                                             <GoogleLogin
                                                 onSuccess={credentialResponse => {
                                                     console.log(credentialResponse);

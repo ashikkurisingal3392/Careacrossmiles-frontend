@@ -68,7 +68,7 @@ function HelperLayout() {
             <HelperTopbar helperDetails={helperDetails}/>
                <div className='flex flex-1 '>
                 {/* side bar */}
-                <div className='w-72'>
+                <div className='hidden md:block w-72'>
              <HelperSidebar/>
                 </div>
                 

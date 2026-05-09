@@ -3,10 +3,10 @@ import { Button, Navbar, NavbarBrand, NavbarCollapse, NavbarLink, NavbarToggle }
 import { MdNotificationsActive } from "react-icons/md";
 import { GoDotFill } from "react-icons/go";
 import { serverURL } from '../../../service/serverURL';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
-function HelperTopbar({helperDetails}) {
+function HelperTopbar({ helperDetails }) {
 
   // const [helperDetails, setHelperDetails] = React.useState({
 
@@ -18,7 +18,7 @@ function HelperTopbar({helperDetails}) {
 
   // })
   const [preview, setPreview] = React.useState("")
-  const navigate=useNavigate()
+  const navigate = useNavigate()
 
   // useEffect(() => {
 
@@ -40,16 +40,16 @@ function HelperTopbar({helperDetails}) {
 
   // }, [])
 
-  const handleSigout=()=>{
-   sessionStorage.clear()
-   navigate('/login')
+  const handleSigout = () => {
+    sessionStorage.clear()
+    navigate('/login')
 
   }
 
   console.log(preview);
   console.log(helperDetails);
-  
-  
+
+
   return (
     <div>
 
@@ -73,7 +73,7 @@ function HelperTopbar({helperDetails}) {
           </div>
 
         </NavbarBrand>
-        <div className="flex md:order-2 gap-5 items-center ">
+        <div className="flex  md:order-2 gap-5 items-center ">
 
           <Button className='text-lg bg-green-950! border-2 border-green-950' ><MdNotificationsActive className='text-yellow-400 text-2xl' /></Button>
 
@@ -82,7 +82,7 @@ function HelperTopbar({helperDetails}) {
               <img className='w-20 h-20 bg-linear-to-r/srgb from-yellow-600 to-green-700  rounded-full p-3' src={
                 preview ? preview : helperDetails?.profile ? `${serverURL}/Uploads/${helperDetails.profile}` : "https://cdn-icons-png.flaticon.com/512/1077/1077114.png"
               } alt="" />
-              {/* <h3 className='text-2xl bg-linear-to-r/srgb from-yellow-600 to-green-700 text-white rounded-full p-3  '>DJ</h3> */}
+              
             </div>
             <div className='flex flex-col'>
               <h4 className='text-md text-white'>{helperDetails?.username}</h4>
@@ -93,17 +93,24 @@ function HelperTopbar({helperDetails}) {
 
           </div>
           <Button onClick={handleSigout} color='green' className='text-lg bg-green-950! text-green-400! hover:bg-green-700! hover:text-white!' >Sign out</Button>
-          <NavbarToggle />
+         
         </div>
-        {/* <NavbarCollapse>
-                <NavbarLink href="#" active>
-                  Home
-                </NavbarLink>
-                <NavbarLink href="#">About</NavbarLink>
-                <NavbarLink href="#">Services</NavbarLink>
-                <NavbarLink href="#">Pricing</NavbarLink>
-                <NavbarLink href="#">Contact</NavbarLink>
-              </NavbarCollapse> */}
+         <NavbarToggle /> 
+          
+         
+        <NavbarCollapse className='md:hidden'  >
+          <Link to={'/helperdashboard'} ><Button  color='green' className='text-lg bg-green-950! text-green-400! hover:bg-green-700! hover:text-white! mb-2 w-full' >Available Tasks</Button> </Link>
+           <Link to={'/helpertask'}> <Button  color='green' className='text-lg bg-green-950! text-green-400! hover:bg-green-700! hover:text-white! mb-2 w-full' >My Tasks</Button> </Link>
+            <Link to={'/helpercompleted'}> <Button  color='green' className='text-lg bg-green-950! text-green-400! hover:bg-green-700! hover:text-white! mb-2 w-full' >Completed Tasks</Button> </Link>
+             <Link to={'/helperprofile'}> <Button  color='green' className='text-lg bg-green-950! text-green-400! hover:bg-green-700! hover:text-white! w-full' >My Profile</Button> </Link>
+            
+           
+           
+           
+
+          
+           
+        </NavbarCollapse>
       </Navbar>
 
     </div>

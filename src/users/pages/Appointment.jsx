@@ -9,7 +9,7 @@ import { Button, Label, Select, Textarea, TextInput } from 'flowbite-react';
 import { Dropdown, DropdownItem } from "flowbite-react";
 import { IoIosAdd } from "react-icons/io";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
-import { addDoctorAPI, bookAppointmentAPI, getAllAppointmentsAPI, getAllDoctorsAPI, updateAppointmentAPI } from '../../../service/allAPIs';
+import { addDoctorAPI, bookAppointmentAPI, deleteAppointmentAPI, getAllAppointmentsAPI, getAllDoctorsAPI, updateAppointmentAPI } from '../../../service/allAPIs';
 
 function Appointment() {
 
@@ -206,9 +206,6 @@ function Appointment() {
   //reschedule appointment
   const updateAppointment = async () => {
 
-
-    const { appointmentDate } = appointment
-
     try {
 
       const token = sessionStorage.getItem('token')
@@ -232,6 +229,7 @@ function Appointment() {
 
         alert(response.data.message)
         setOpenUpdateAppointment(false)
+        getAllAppointments();
       }
 
 
@@ -241,6 +239,37 @@ function Appointment() {
       console.log(err.response.data.message);
     }
   }
+
+  //delete appointment
+  const deleteAppointment = async (id) => {
+
+    console.log(id);
+    
+
+    try {
+
+      const token = sessionStorage.getItem('token')
+      console.log("token :", token);
+
+      const reqHeader = {
+        Authorization: `Bearer ${token}`
+      }
+
+      const response = await deleteAppointmentAPI(id,reqHeader)
+      console.log(response);
+      if(response.status ==200){
+
+        alert(response.data.message)
+        getAllAppointments();
+      }
+
+    }
+    catch (err) {
+      console.log(err);
+      console.log(err.response.data.message);
+    }
+  }
+
 
 
 
@@ -335,7 +364,7 @@ function Appointment() {
                         </div>
                         <div className='flex gap-3'>
                           <Button onClick={()=>{setSelectedAppointmentId(item._id);setOpenUpdateAppointment(true); }} color="green" outline className='text-green-700'>Reschedule</Button>
-                          <Button color="red" outline className='text-red-700'>Cancel</Button>
+                          <Button onClick={()=>deleteAppointment(item._id)} color="red" outline className='text-red-700'>Cancel</Button>
                         </div>
                       </div>
 

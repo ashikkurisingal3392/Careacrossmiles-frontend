@@ -125,15 +125,15 @@ function HelperDashboard() {
             </div>
             <div className='flex flex-1 '>
                 {/* sidebar */}
-                 <div className='w-72 '>
+                 <div className='hidden md:block w-72'>
                     <HelperSidebar/>
                 </div>
                 {/* dashboard content */}
                 <div className='flex-1 p-4' style={{backgroundColor:'#0d1e17'}}>
                    
                      {/* top section */}
-            <div className=' grid sm:grid-cols-1 md:grid-cols-4 gap-2 justify-evenly mt-5'>
-              <div className='flex flex-col items-start p-4 border rounded-2xl bg-green-950 gap-2 transition delay-50 duration-300 ease-in-out hover:-translate-y-1 hover:scale-100 hover:shadow-2xl' style={{ borderColor: '#e5c185' }}>
+            <div className=' grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2 justify-evenly mt-5'>
+              <div className='flex flex-col items-start p-4 border  rounded-2xl bg-green-950 gap-2 transition delay-50 duration-300 ease-in-out hover:-translate-y-1 hover:scale-100 hover:shadow-2xl' style={{ borderColor: '#e5c185' }}>
                 <div className='flex  items-center justify-between w-full'>
                   <button className='p-3 rounded-md' style={{ backgroundColor: '#a3b7ca', opacity: '.9' }}><img className='w-8 h-8' src='https://cdn-icons-png.flaticon.com/512/4345/4345800.png'/></button>
                   <p className='text-xs  bg-orange-200 text-green-700 p-1 rounded-xl'>All tracked</p>
