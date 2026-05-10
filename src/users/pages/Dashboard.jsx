@@ -116,7 +116,7 @@ function Dashboard() {
 
       <div className='flex min-h-screen '>
         {/* sidebar */}
-        <div className=' w-72 '>
+        <div className='  hidden md:block w-72 '>
           <UserSidebar />
 
         </div>
@@ -129,14 +129,14 @@ function Dashboard() {
           <div className=' flex-1 p-4' style={{ backgroundColor: '#ffffea' }}>
 
             {/* top section */}
-            <div className='flex  justify-between mx-auto items-center bg-linear-to-r/srgb from-green-800 to-green-700 p-4 rounded-3xl' >
+            <div className='flex flex-col gap-3 md:flex-row  justify-between mx-auto items-center bg-linear-to-r/srgb from-green-800 to-green-700 p-4 rounded-3xl' >
               <div className='mx-3'>
                 <h3 className='text-xs text-yellow-500 mb-2'>FAMILY CONNECTION STATUS</h3>
-                <h4 className='text-xl text-white mb-2'>Your Family in <span className='text-yellow-500'>Ernakulam</span>  is doing well</h4>
+                <h4 className='text-md md:text-xl text-white  mb-2'>Your Family in <span className='text-yellow-500'>Ernakulam</span>  is doing well</h4>
                 <h6 className='text-xs ' style={{ color: '#ced3d7' }}>Last activity 20 mins ago . 2 tasks pending . 3 appointment tommorow</h6>
               </div>
               <div className='flex items-center  gap-2'>
-                <div className='flex flex-col items-center gap-1 rounded-2xl p-3' style={{ borderColor: '#F9C74F', backgroundColor: '#e5c185', opacity: '.9' }}>
+                <div className='flex flex-col items-center gap-1 rounded-2xl p-3 w-32' style={{ borderColor: '#F9C74F', backgroundColor: '#e5c185', opacity: '.9' }}>
                   <button className='text-3xl ' >🇬🇧</button>
                   <h6 className='text-xs'>London</h6>
                 </div>
@@ -144,7 +144,7 @@ function Dashboard() {
                   <GoArrowSwitch className='text-xl text-yellow-300' />
                 </div>
 
-                <div className='flex flex-col items-center gap-1 rounded-2xl p-3' style={{ borderColor: '#F9C74F', backgroundColor: '#e5c185', opacity: '.9' }}>
+                <div className='flex flex-col items-center gap-1 rounded-2xl p-3 w-32' style={{ borderColor: '#F9C74F', backgroundColor: '#e5c185', opacity: '.9' }}>
                   <button className='text-3xl '>🇮🇳</button>
                   <h6 className='text-xs'>Ernakulam</h6>
                 </div>
@@ -153,7 +153,7 @@ function Dashboard() {
             </div>
 
             {/* first- grid */}
-            <div className=' grid sm:grid-cols-1 md:grid-cols-3 gap-2 justify-evenly mt-5'>
+            <div className=' grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 gap-2 justify-evenly mt-5'>
               <div className='flex flex-col items-start p-4 border rounded-2xl bg-white gap-2 transition delay-50 duration-300 ease-in-out hover:-translate-y-1 hover:scale-100 hover:shadow-2xl' style={{ borderColor: '#e5c185' }}>
                 <div className='flex  items-center justify-between w-full'>
                   <button className='p-3 rounded-md' style={{ backgroundColor: '#a3b7ca', opacity: '.9' }}><BsHospital className='text-red-700' /></button>
@@ -192,7 +192,7 @@ function Dashboard() {
 
             </div>
             {/* second-grid */}
-            <div className=' grid sm:grid-cols-1 md:grid-cols-3 gap-2 justify-evenly mt-5'>
+            <div className=' grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 gap-2 justify-evenly mt-5'>
               <div className='flex flex-col items-center justify-center p-4 border rounded-2xl bg-white gap-2 transition delay-50 duration-300 ease-in-out hover:-translate-y-1 hover:scale-100 hover:shadow-2xl hover:bg-linear-to-r/srgb from-yellow-200 to-green-700' style={{ borderColor: '#e5c185' }}>
                 <Link to={'/appointment'}>
                   <button className='p-3 rounded-md' style={{ backgroundColor: '#a3b7ca', opacity: '.9' }}><BsHospital className='text-red-700 text-2xl' /></button>
@@ -326,7 +326,7 @@ function Dashboard() {
               </div>
             </div>
             {/* family members & helpers*/}
-            <div className='grid grid-cols-2 gap-3 mt-5'>
+            <div className='grid grid-cols-1 md:grid-cols-2 gap-3 mt-5'>
 
               <div className=' border rounded-2xl p-4' style={{ borderColor: '#e5c185' }}>
                 <div className='flex justify-between mb-4'>

@@ -288,7 +288,7 @@ function Appointment() {
       <div className='flex min-h-screen'>
 
         {/* sidebar */}
-        <div className='w-72'>
+        <div className=' hidden md:block w-72'>
           <UserSidebar />
 
         </div>
@@ -302,7 +302,7 @@ function Appointment() {
           <div className='flex-1 p-4' style={{ backgroundColor: '#ffffea' }}>
 
             {/* top section */}
-            <div className='flex  justify-between mx-auto items-center bg-linear-to-r/srgb from-green-800 to-green-700 p-4 rounded-3xl' >
+            <div className='flex flex-col gap-4  md:flex-row md:justify-between mx-auto md:items-center bg-linear-to-r/srgb from-green-800 to-green-700 p-4 rounded-3xl' >
               <div className='mx-3'>
                 <h3 className='text-xs text-yellow-500 mb-2'>UPCOMING APPOINTMENTS </h3>
                 <h4 className='text-xl text-white mb-2'>Next visit:<span className='text-yellow-500'>Dr.Luffy</span>  tomorrow</h4>
@@ -312,7 +312,7 @@ function Appointment() {
                 </div>
 
               </div>
-              <div className='flex items-center  gap-2'>
+              <div className='flex items-center  gap-2 self-center'>
                 <div className='flex flex-col items-center gap-1 rounded-2xl p-3 w-24' style={{ borderColor: '#F9C74F', backgroundColor: '#e5c185', opacity: '.9' }}>
                   <button className='text-3xl ' >{new Date().getDate()}</button>
                   <h6 className='text-xs'>{new Date().toLocaleDateString("en-GB", { month: 'short' })}</h6>
@@ -446,9 +446,9 @@ function Appointment() {
                     <div className='w-full'>
                       <Label className='text-black!'>Patients</Label>
                       <Select onChange={(e) => setAppointment({ ...appointment, patientName: e.target.value })} value={appointment.patientName} className='bg-white! text-black!   focus:ring-0 ' label="Choose your Patient">
-
-                        <option className='text-white bg-green-800 w-48 hover:bg-green-950!  '>Father</option>
-                        <option className='text-white bg-green-800 w-48 hover:bg-green-950!'>Mother</option>
+                          <option value="" className='text-white bg-green-800 w-48 hover:bg-green-950!  '>Choose your option</option>
+                        <option value="Father" className='text-white bg-green-800 w-48 hover:bg-green-950!  '>Father</option>
+                        <option value="Mother" className='text-white bg-green-800 w-48 hover:bg-green-950!'>Mother</option>
 
                       </Select>
                     </div>

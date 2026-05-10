@@ -99,16 +99,10 @@ function HelperTopbar({ helperDetails }) {
           
          
         <NavbarCollapse className='md:hidden'  >
-          <Link to={'/helperdashboard'} ><Button  color='green' className='text-lg bg-green-950! text-green-400! hover:bg-green-700! hover:text-white! mb-2 w-full' >Available Tasks</Button> </Link>
+          <Link to={'/helperdashboard'} ><Button  color='green' className='text-lg bg-green-950! text-green-400! hover:bg-green-700! hover:text-white! mb-2 w-full' >Dashboard</Button> </Link>
            <Link to={'/helpertask'}> <Button  color='green' className='text-lg bg-green-950! text-green-400! hover:bg-green-700! hover:text-white! mb-2 w-full' >My Tasks</Button> </Link>
             <Link to={'/helpercompleted'}> <Button  color='green' className='text-lg bg-green-950! text-green-400! hover:bg-green-700! hover:text-white! mb-2 w-full' >Completed Tasks</Button> </Link>
              <Link to={'/helperprofile'}> <Button  color='green' className='text-lg bg-green-950! text-green-400! hover:bg-green-700! hover:text-white! w-full' >My Profile</Button> </Link>
-            
-           
-           
-           
-
-          
            
         </NavbarCollapse>
       </Navbar>
