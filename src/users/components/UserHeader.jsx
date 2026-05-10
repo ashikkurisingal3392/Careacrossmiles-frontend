@@ -14,6 +14,11 @@ function UserHeader() {
   let currentDate = new Date()
   console.log(currentDate);
 
+  const handleSignout=()=>{
+
+    sessionStorage.clear()
+  }
+
 
 
 
@@ -50,7 +55,7 @@ function UserHeader() {
           <Link to={'/appointment'} ><Button color='white' className='text-lg  text-white! hover:bg-gray-400! hover:text-white! mb-2 w-full' style={{ backgroundColor: '#e5c185' }} >Appointments</Button> </Link>
 
           <Link to={'/medicines'} ><Button color='white' className='text-lg  text-white! hover:bg-gray-400! hover:text-white! mb-2 w-full' style={{ backgroundColor: '#e5c185' }} >Medicine</Button> </Link>
-
+           <Link to={'/login'} ><Button onClick={handleSignout} color='white' className='text-lg  text-white! hover:bg-gray-400! hover:text-white! mb-2 w-full' style={{ backgroundColor: '#e5c185' }} >Sign out</Button> </Link>
 
         </NavbarCollapse>
       </Navbar>

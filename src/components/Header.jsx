@@ -12,7 +12,7 @@ function Header() {
       </NavbarBrand>
       <div className="flex md:order-2 gap-2">
        <Link to={'/login'}>
-       <Button color="green" className='hover:border-2! ' outline style={{borderColor:'#e5c185'}} >Sign In</Button>
+       <Button color="green" className='hover:border-2! hidden md:flex ' outline style={{borderColor:'#e5c185'}} >Sign In</Button>
        </Link> 
         <Button  style={{backgroundColor:'#004343'}} className='hover:bg-green-700!'>Get started</Button>
         <NavbarToggle />
@@ -25,6 +25,9 @@ function Header() {
         <NavbarLink className="text-black! hover:text-gray-500!"   href="#features">Features</NavbarLink>
         <NavbarLink className="text-black! hover:text-gray-500!"  href="#">Pricing</NavbarLink>
         <NavbarLink className="text-black! hover:text-gray-500!"  href="#">FAQ</NavbarLink>
+         <Link to={'/login'}>
+       <Button color="green" className='hover:border-2! mt-3 md:hidden' outline style={{borderColor:'#e5c185'}} >Sign In</Button>
+       </Link>
       </NavbarCollapse>
     </Navbar>
 

@@ -53,11 +53,11 @@ function CareTask() {
 
     }, [])
 
-    console.log(showTasks);
+    // console.log(showTasks);
 
     //image upload to uplodImages 
     const handleUpload = (e) => {
-        console.log(e.target.files[0]);
+        // console.log(e.target.files[0]);
 
         let imgArray = task.uploadedImages
 
@@ -74,7 +74,7 @@ function CareTask() {
             let imgListArray = previewList
             imgListArray.push(imgUrl)
             setPreviewList(imgListArray)
-            console.log(previewList);
+            // console.log(previewList);
         }
         else {
             alert('no more images')
@@ -87,7 +87,7 @@ function CareTask() {
     const handleAddTask = async () => {
        
 
-        console.log(task);
+        // console.log(task);
 
         const { title, payment, location, helper, carerecipient, date, description, category, family, uploadedImages } = task
 
@@ -98,7 +98,7 @@ function CareTask() {
             try {
 
                 const token = sessionStorage.getItem('token')
-                console.log("token :", token);
+                // console.log("token :", token);
 
                 const reqHeader = {
                     Authorization: `Bearer ${token}`
@@ -185,14 +185,14 @@ function CareTask() {
 
         try {
             const token = sessionStorage.getItem('token')
-            console.log("token :", token);
+            // console.log("token :", token);
 
             const reqHeader = {
                 Authorization: `Bearer ${token}`
             }
 
             const response = await getAllHelpersAPI(reqHeader)
-            console.log(response);
+            // console.log(response);
             setHelpers(response.data.allHelpers)
 
         }
@@ -212,7 +212,7 @@ function CareTask() {
 
 
             const token = sessionStorage.getItem('token')
-            console.log("token :", token);
+            // console.log("token :", token);
 
             const reqHeader = {
                 Authorization: `Bearer ${token}`
@@ -220,7 +220,7 @@ function CareTask() {
 
             const response = await getTasksAPI(reqHeader)
 
-            console.log(response);
+            // console.log(response);
 
             setShowTasks(response.data.allTasks)
 
@@ -237,7 +237,7 @@ function CareTask() {
 
     const handleDelete=async()=>{
 
-        console.log(checkBox);
+        // console.log(checkBox);
         
 
     }

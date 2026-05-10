@@ -2,8 +2,6 @@ import React, { useState } from 'react'
 import { BsHospital } from "react-icons/bs";
 import { MdOutlineFamilyRestroom } from "react-icons/md";
 import { Button, Card, Checkbox, Label, Select, TextInput } from "flowbite-react";
-import { FcGoogle } from "react-icons/fc";
-import { HRText } from "flowbite-react";
 import { googleLoginAPI, loginAPI, registerAPI } from '../../service/allAPIs';
 import { ToastContainer, toast, Bounce } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
@@ -11,6 +9,7 @@ import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from "jwt-decode";
 import { FaHandsHelping } from "react-icons/fa";
 import { Link } from "react-router-dom"
+import { FaArrowRight } from "react-icons/fa";
 
 function Auth({ mode,role }) {
 
@@ -293,9 +292,9 @@ function Auth({ mode,role }) {
 
             <section className='w-full  h-screen'>
 
-                <div className='grid sm:grid-cols-1 md:grid-cols-3 h-full'>
+                <div className='grid grid-cols-1 md:grid-cols-3 h-full'>
                     {/* side bar design */}
-                    <div className='p-10 h-full' style={{ backgroundColor: '#2c6e49' }}>
+                    <div className='p-10 h-full hidden md:flex flex-col ' style={{ backgroundColor: '#2c6e49' }}>
                         <div className='flex flex-col justify-start h-62  mt-5 '>
                             <div className='flex items-center text-white'>
                                 <img style={{ width: 50, height: 50 }} src="https://png.pngtree.com/png-vector/20250802/ourlarge/pngtree-hand-drawn-green-coconut-tree-icon-elements-png-image_16966361.webp" alt="" />
@@ -352,9 +351,9 @@ function Auth({ mode,role }) {
 
                     </div>
                     {/* login/register design */}
-                    <div className='col-span-2 ' style={{ backgroundColor: '#ffffea' }}>
+                    <div className='col-span-1 md:col-span-2 ' style={{ backgroundColor: '#ffffea' }}>
 
-                        <div className='flex  flex-col items-center justify-center w-full h-screen mt-6'>
+                        <div className='flex  flex-col items-center justify-center md:justify-center w-full h-screen px-4 sm:px-6 py-10'>
 
                             <div className='flex flex-col items-center justify-center w-full'>
                                 {/* top section */}
@@ -563,11 +562,19 @@ function Auth({ mode,role }) {
                                         </form>
                                     </Card>
                                 </div>
+                                <Link to={'/'}>
+                                <Button color="green" className='mt-5 bg-green-900! hover:translate-x-1 hover:bg-green-600!'>back to home page<FaArrowRight className='mx-2 ' /></Button>
+                                
+                                </Link> 
 
                             </div>
 
 
 
+                        </div>
+
+                        <div>
+                           
                         </div>
 
 

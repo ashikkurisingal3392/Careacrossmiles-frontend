@@ -51,14 +51,14 @@ function Appointment() {
 
     try {
       const token = sessionStorage.getItem('token')
-      console.log("token :", token);
+      // console.log("token :", token);
 
       const reqHeader = {
         Authorization: `Bearer ${token}`
       }
 
       const response = await getAllDoctorsAPI(reqHeader)
-      console.log(response);
+      // console.log(response);
       setDoctors(response.data.allDoctors)
 
     }
@@ -72,7 +72,7 @@ function Appointment() {
   //add an appointment
   const handleBooking = async () => {
 
-    console.log(appointment);
+    // console.log(appointment);
 
     const { doctorID, patientName, appointmentDate, notes } = appointment
     if (doctorID && patientName && appointmentDate && notes) {
@@ -80,7 +80,7 @@ function Appointment() {
       try {
 
         const token = sessionStorage.getItem('token')
-        console.log("token :", token);
+        // console.log("token :", token);
 
         const reqHeader = {
           Authorization: `Bearer ${token}`
@@ -120,7 +120,7 @@ function Appointment() {
       }
       catch (err) {
 
-        console.log(err);
+        
         alert(err.response.data.message)
 
         console.log(err.response.data.message)
@@ -139,14 +139,14 @@ function Appointment() {
 
     try {
       const token = sessionStorage.getItem('token')
-      console.log("token :", token);
+      // console.log("token :", token);
 
       const reqHeader = {
         Authorization: `Bearer ${token}`
       }
 
       const response = await getAllAppointmentsAPI(reqHeader)
-      console.log(response);
+      // console.log(response);
       setShowAppointments(response.data.allAppointments)
 
     }

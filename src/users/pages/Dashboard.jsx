@@ -34,15 +34,15 @@ function Dashboard() {
 
   }, [])
 
-  console.log(tasks);
-  console.log(searchKey);
+  // console.log(tasks);
+  // console.log(searchKey);
 
 
   const getAllTasks = async () => {
 
     try {
       const token = sessionStorage.getItem('token')
-      console.log("token :", token);
+      // console.log("token :", token);
 
       const reqHeader = {
         Authorization: `Bearer ${token}`
@@ -69,7 +69,7 @@ function Dashboard() {
 
     try {
       const token = sessionStorage.getItem('token')
-      console.log("token :", token);
+      // console.log("token :", token);
 
       const reqHeader = {
         Authorization: `Bearer ${token}`
@@ -97,16 +97,16 @@ function Dashboard() {
       setTasks(dummyTasks)
     }
 
-    console.log(searchKey);
+    // console.log(searchKey);
      let data =dummyTasks.filter(item => (item.title).toLowerCase().trim().includes(searchKey.toLowerCase().trim()))
      setTasks(data)
     
 
   }
 
-  console.log(helpers);
+  // console.log(helpers);
 
-  console.log(searchKey);
+  // console.log(searchKey);
   
 
 
