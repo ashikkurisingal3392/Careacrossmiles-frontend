@@ -85,7 +85,7 @@ function CareTask() {
     }
     //to create a new task
     const handleAddTask = async () => {
-        setOpenModal(false)
+       
 
         console.log(task);
 
@@ -120,8 +120,31 @@ function CareTask() {
                 console.log(response);
                 if (response.status == 200) {
                     alert(response.data.message)
+
+                      // reset everything
+                setTask({
+                    title: "",
+                    payment: "",
+                    location: "",
+                    helper: "",
+                    carerecipient: "",
+                    date: "",
+                    description: "",
+                    category: "",
+                    userEmail: "",
+                    family: "",
+                    budget: "",
+                    uploadedImages: []
+                });
+
+                setPreview('');
+                setPreviewList([]);
+                 getAllTasks();
+
+                     setOpenModal(false)
                 } else {
                     alert("error while adding book")
+
                 }
                 // reset everything
                 setTask({
