@@ -139,3 +139,10 @@ export const deleteAppointmentAPI=async(id,reqHeader)=>{
     return await commonAPI("DELETE",`${serverURL}/api/deleteappointment/${id}`,"",reqHeader)
 
 }
+
+//delete user tasks
+
+export const deleteTasksAPI =async(id,reqHeader)=>{
+
+    return await commonAPI("DELETE",`${serverURL}/api/deletetask/${id}`,"",reqHeader)
+}

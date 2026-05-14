@@ -13,7 +13,7 @@ import { Datepicker } from "flowbite-react";
 
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
 import { useState } from "react";
-import { addTaskAPI, getAllHelpersAPI, getTasksAPI } from '../../../service/allAPIs';
+import { addTaskAPI, deleteTasksAPI, getAllHelpersAPI, getTasksAPI } from '../../../service/allAPIs';
 
 
 
@@ -235,9 +235,49 @@ function CareTask() {
   
     //delete a task
 
-    const handleDelete=async()=>{
+    const handleDelete=async(id)=>{
 
         // console.log(checkBox);
+
+        console.log(id);
+
+        const confirmDelete =  window.confirm("Are you sure to delete")
+        if(!confirmDelete) return
+
+       
+
+            
+            
+
+
+        try{
+
+             const token = sessionStorage.getItem('token')
+        const reqHeader = {
+                Authorization: `Bearer ${token}`
+            }
+            console.log(reqHeader);
+
+            const response= await deleteTasksAPI(id,reqHeader)
+
+          
+            console.log(response);
+            if(response.status==200){
+
+                alert(response.data.message)
+                 getAllTasks()
+            }
+            
+
+        }
+        catch(err){
+           console.log(err.message);
+           
+            console.log(err.response?.data?.message)
+
+
+        }
+        
         
 
     }
@@ -361,7 +401,7 @@ function CareTask() {
                                                                 </div>
                                                                 <div className='flex items-center  gap-3'>
                                                                      <h6 className='flex items-center justify-cente text-sm bg-red-200 text-red-700 h-8 rounded-xl p-1'>{item.helper}</h6>
-                                                                <Button onClick={handleDelete} color="red" className=' h-8 px-3 text-sm flex items-center justify-center'>Delete</Button>
+                                                                <Button onClick={()=>handleDelete(item._id)} color="red" className=' h-8 px-3 text-sm flex items-center justify-center'>Delete</Button>
 
                                                                 </div>
                                                                
@@ -401,7 +441,7 @@ function CareTask() {
                                             showTasks.length > 0 ?
                                                 showTasks.filter(task => task.status === "inprogress")
                                                     .map((item, index) => (
-                                                        <div className='border rounded-2xl p-3 border-white bg-white shadow-xl transition delay-50 duration-300 ease-in-out hover:-translate-y-1 hover:scale-100 '>
+                                                        <div key={index} className='border rounded-2xl p-3 border-white bg-white shadow-xl transition delay-50 duration-300 ease-in-out hover:-translate-y-1 hover:scale-100 '>
                                                             <div className='flex justify-between mb-2'>
                                                                 <h3 className='text-md font-bold'>{item.title}</h3>
                                                                 <Checkbox className='w-6' color='green' style={{ borderColor: '#e5c185', backgroundColor: '#74a892' }} />
