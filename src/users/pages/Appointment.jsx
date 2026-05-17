@@ -164,7 +164,7 @@ function Appointment() {
     try {
 
       const token = sessionStorage.getItem('token')
-      console.log("token :", token);
+      //console.log("token :", token);
 
       const reqHeader = {
         Authorization: `Bearer ${token}`

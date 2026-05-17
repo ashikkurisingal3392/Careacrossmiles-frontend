@@ -146,3 +146,11 @@ export const deleteTasksAPI =async(id,reqHeader)=>{
 
     return await commonAPI("DELETE",`${serverURL}/api/deletetask/${id}`,"",reqHeader)
 }
+
+
+//add doctor
+export const addPharmacyAPI=async(reqBody,reqHeader)=>{
+
+    return await commonAPI("POST",`${serverURL}/api/pharmacy`,reqBody,reqHeader)
+
+}

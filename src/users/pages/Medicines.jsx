@@ -1,12 +1,61 @@
-import React from 'react'
+import React, { useState } from 'react'
 import UserSidebar from '../components/UserSidebar'
 import CareHeader from '../components/CareHeader'
 import { SlCalender } from "react-icons/sl";
 import { CiCreditCard1 } from "react-icons/ci";
 import { Button, Label, Select, Textarea, TextInput ,FileInput } from 'flowbite-react';
 import { IoIosAdd } from "react-icons/io";
+import { Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
+import { addPharmacyAPI } from '../../../service/allAPIs';
 
 function Medicines() {
+
+   const [openModal, setOpenModal] = useState(false);
+   const[pharmacy,setPharmacy]=useState({
+
+    pharamcyName:"",
+    address:''
+
+   })
+    const handleModalClose = () => {
+    setOpenModal(false)
+  }
+      const handleModalOpen = () => {
+    setOpenModal(true)
+  }
+  const handleAddPharmacy=async()=>{
+
+    console.log(pharmacy);
+
+     const token = sessionStorage.getItem('token')
+      //console.log("token :", token);
+
+      const reqHeader = {
+        Authorization: `Bearer ${token}`
+      }
+     
+      const reqBody ={
+
+        pharmacyName:pharmacy.pharamcyName,
+        address:pharmacy.address
+      }
+
+      const response =await addPharmacyAPI(reqBody,reqHeader)
+      
+      console.log(response);
+
+        if(response.status ==200){
+
+          alert(response.data.message)
+
+          setPharmacy({
+            pharamcyName:"",
+            address:""
+          })
+        }
+      
+
+  }
   return (
     <div>
 
@@ -227,6 +276,14 @@ function Medicines() {
                     </div>
 
                   </div>
+                   <div className='mb-3 mt-2' >
+                    <TextInput
+
+                      type="text"
+                      className="[&>input]:bg-white border-gray-600! border bg-white! mt-3 rounded-lg  w-full"
+                      placeholder='Enter medicine name'
+                    />
+                  </div>
                   <div className='mb-3 mt-2' >
                     <TextInput
 
@@ -269,15 +326,12 @@ function Medicines() {
                     <p className='text-xs text-green-600'>Near Thrissur · Quick order</p>
 
                   </div>
-                  <div className='flex  items-center justify-center border rounded-3xl p-2 w-36 h-8 text-green-700 hover:shadow-xl hover:bg-green-700 hover:text-white' style={{ borderColor: '#e5c185' }}>
+                  <button onClick={handleModalOpen} className='flex  items-center justify-center border rounded-3xl p-2 w-36 h-8 text-green-700 hover:shadow-xl hover:bg-green-700 hover:text-white' style={{ borderColor: '#e5c185' }}>
                     <IoIosAdd className='font-bold' />
                     <h6 className='text-xs font-bold '>Add pharamacy</h6>
 
-                  </div>
-
-
+                  </button>
                 </div>
-
 
                 <div className='flex justify-between gap-2 items-center border  rounded-2xl p-3' style={{ borderColor: "#e5c185" }}>
                   <div className='flex  gap-2'>
@@ -327,6 +381,25 @@ function Medicines() {
 
 
             </div>
+
+
+             {/* modal add pharmacy */}
+                        <Modal dismissible show={openModal} onClose={() => setOpenModal(false)}>
+                          <ModalHeader className='bg-green-900!'>Add A Doctor</ModalHeader>
+                          <ModalBody className='bg-gray-700! h-full'>
+                            <div className="space-y-6">
+                              <Label>Pharmacy Name </Label>
+                              <TextInput onChange={(e) => setPharmacy({ ...pharmacy, pharamcyName: e.target.value })} value={pharmacy.pharamcyName} placeholder='Aster medicines' className=' text-black! border-gray-300! placeholder:bg-white!'  ></TextInput>
+                              <Label>Address  </Label>
+                              <TextInput onChange={(e) => setPharmacy({ ...pharmacy, address: e.target.value })} value={pharmacy.address} placeholder='mg road,kochi' className=' text-black! border-gray-300! placeholder:bg-white!'  ></TextInput>
+                            </div>
+                          </ModalBody>
+                          <ModalFooter className='bg-green-900! gap-5'>
+                            <Button className='bg-green-700! hover:bg-green-950!' onClick={handleAddPharmacy}  >Add doctor</Button>
+                            <Button className='bg-red-700! hover:bg-red-950!' onClick={handleModalClose} >Cancel</Button>
+            
+                          </ModalFooter>
+                        </Modal>
 
           </div>
 
