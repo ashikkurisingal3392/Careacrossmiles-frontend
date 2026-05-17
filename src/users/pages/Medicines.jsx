@@ -13,7 +13,7 @@ function Medicines() {
    const [openModal, setOpenModal] = useState(false);
    const[pharmacy,setPharmacy]=useState({
 
-    pharamcyName:"",
+    pharmacyName:"",
     address:''
 
    })
@@ -23,12 +23,15 @@ function Medicines() {
       const handleModalOpen = () => {
     setOpenModal(true)
   }
+
   const handleAddPharmacy=async()=>{
 
     console.log(pharmacy);
 
-     const token = sessionStorage.getItem('token')
-      //console.log("token :", token);
+    try{
+
+       const token = sessionStorage.getItem('token')
+      console.log("token :", token);
 
       const reqHeader = {
         Authorization: `Bearer ${token}`
@@ -36,23 +39,35 @@ function Medicines() {
      
       const reqBody ={
 
-        pharmacyName:pharmacy.pharamcyName,
+        pharmacyName:pharmacy.pharmacyName,
         address:pharmacy.address
       }
-
+    
+      console.log(reqHeader);
+      console.log(reqBody);
+      
       const response =await addPharmacyAPI(reqBody,reqHeader)
       
       console.log(response);
 
-        if(response.status ==200){
+        if(response.status === 200){
 
           alert(response.data.message)
 
           setPharmacy({
-            pharamcyName:"",
+            pharmacyName:"",
             address:""
           })
         }
+
+
+    }
+    catch(err){
+      console.log(err);
+      
+    }
+
+    
       
 
   }
@@ -389,7 +404,7 @@ function Medicines() {
                           <ModalBody className='bg-gray-700! h-full'>
                             <div className="space-y-6">
                               <Label>Pharmacy Name </Label>
-                              <TextInput onChange={(e) => setPharmacy({ ...pharmacy, pharamcyName: e.target.value })} value={pharmacy.pharamcyName} placeholder='Aster medicines' className=' text-black! border-gray-300! placeholder:bg-white!'  ></TextInput>
+                              <TextInput onChange={(e) => setPharmacy({ ...pharmacy, pharmacyName: e.target.value })} value={pharmacy.pharmacyName} placeholder='Aster medicines' className=' text-black! border-gray-300! placeholder:bg-white!'  ></TextInput>
                               <Label>Address  </Label>
                               <TextInput onChange={(e) => setPharmacy({ ...pharmacy, address: e.target.value })} value={pharmacy.address} placeholder='mg road,kochi' className=' text-black! border-gray-300! placeholder:bg-white!'  ></TextInput>
                             </div>
