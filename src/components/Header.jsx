@@ -23,7 +23,7 @@ function Header() {
         </NavbarLink>
         <NavbarLink className="text-black! hover:text-gray-500!"   href="#how-works">How it works</NavbarLink>
         <NavbarLink className="text-black! hover:text-gray-500!"   href="#features">Features</NavbarLink>
-        <NavbarLink className="text-black! hover:text-gray-500!"  href="#">Pricing</NavbarLink>
+        <NavbarLink className="text-black! hover:text-gray-500!"  href="#pricing">Pricing</NavbarLink>
         <NavbarLink className="text-black! hover:text-gray-500!"  href="#">FAQ</NavbarLink>
          <Link to={'/login'}>
        <Button color="green" className='hover:border-2! mt-3 md:hidden' outline style={{borderColor:'#e5c185'}} >Sign In</Button>

@@ -163,3 +163,16 @@ export const addPharmacyAPI=async(reqBody,reqHeader)=>{
 
 }
 
+// get pharmacy list
+export const getAllPharmacyAPI=async(reqHeader)=>{
+
+    return await commonAPI("GET",`${serverURL}/api/pharmacy`,"",reqHeader)
+
+}
+
+// delete pharmacy list
+export const deletePharmacyAPI=async(id,reqHeader)=>{
+
+    return await commonAPI("DELETE",`${serverURL}/api/pharmacy/${id}`,"",reqHeader)
+
+}

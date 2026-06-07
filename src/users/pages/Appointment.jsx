@@ -11,6 +11,7 @@ import { IoIosAdd } from "react-icons/io";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
 import { addDoctorAPI, bookAppointmentAPI, deleteAppointmentAPI, deleteDoctorAPI, getAllAppointmentsAPI, getAllDoctorsAPI, updateAppointmentAPI } from '../../../service/allAPIs';
 import { MdDelete } from "react-icons/md";
+import Swal from 'sweetalert2'
 
 function Appointment() {
 
@@ -100,7 +101,20 @@ function Appointment() {
         console.log(response);
         if (response.status === 200) {
 
-          alert(response.data.message)
+           Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+          }
+        }).fire({
+          icon: "success",
+          title:response.data.message
+        });
 
           setAppointment({
 
@@ -111,8 +125,6 @@ function Appointment() {
 
           })
 
-
-
           getAllAppointments()
 
         }
@@ -122,7 +134,20 @@ function Appointment() {
       catch (err) {
 
 
-        alert(err.response.data.message)
+         Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+          }
+        }).fire({
+          icon: "error",
+          title: err.response.data.message
+        });
 
         console.log(err.response.data.message)
 
@@ -183,7 +208,20 @@ function Appointment() {
       const response = await addDoctorAPI(reqBody, reqHeader)
       console.log(response);
       if (response.status == 200) {
-        alert(response.data.message)
+         Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+          }
+        }).fire({
+          icon: "success",
+          title: response.data.message
+        });
 
         setAddDoctor({
           fullName: "", specialization: "", hospitalName: "", location: "", fee: ""
@@ -197,6 +235,20 @@ function Appointment() {
     catch (err) {
 
       console.log(err);
+       Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+          }
+        }).fire({
+          icon: "error",
+          title: err.response.data.message
+        });
       alert(err.response.data.message)
 
     }
@@ -228,7 +280,20 @@ function Appointment() {
       console.log(response);
       if (response.status == 200) {
 
-        alert(response.data.message)
+         Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+          }
+        }).fire({
+          icon: "success",
+          title:response.data.message
+        });
         setOpenUpdateAppointment(false)
         getAllAppointments();
       }
@@ -238,6 +303,20 @@ function Appointment() {
     catch (err) {
       console.log(err);
       console.log(err.response.data.message);
+       Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+          }
+        }).fire({
+          icon: "error",
+          title: err.response.data.message
+        });
     }
   }
 
@@ -260,51 +339,107 @@ function Appointment() {
       console.log(response);
       if (response.status == 200) {
 
-        alert(response.data.message)
+
+        Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+          }
+        }).fire({
+          icon: "success",
+          title: response.data.message
+        });
         getAllAppointments();
       }
 
     }
     catch (err) {
-      console.log(err);
-      console.log(err.response.data.message);
+       Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+          }
+        }).fire({
+          icon: "error",
+          title: err.response.data.message
+        });
     }
   }
 
-
+ //get newest appointment
   const upcomingAppointment = showAppointments.filter(item => new Date(item.appointmentDate) > new Date)
     .sort((a, b) => new Date(a.appointmentDate) - new Date(b.appointmentDate))[0];
 
   // console.log(upcomingAppointment);
 
   //delete doctor
-  const deleteDoctor=async(id)=>{
+  const deleteDoctor = async (id) => {
 
     console.log(id);
 
-     const token = sessionStorage.getItem('token')
-      console.log("token :", token);
+    const token = sessionStorage.getItem('token')
+    console.log("token :", token);
 
-      const reqHeader = {
-        Authorization: `Bearer ${token}`
+    const reqHeader = {
+      Authorization: `Bearer ${token}`
+    }
+
+    try {
+
+      const response = await deleteDoctorAPI(id, reqHeader)
+      console.log(response);
+
+      if (response.status === 200) {
+
+       
+        Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+          }
+        }).fire({
+          icon: "success",
+          title: response.data.message
+        });
+
+        getAllDoctors();
+
       }
 
-    try{
-
-      const response= await deleteDoctorAPI(id,reqHeader)
-      console.log(response);
-      
+    }
+    catch (err) {
+      Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+          }
+        }).fire({
+          icon: "error",
+          title: err.response.data.message
+        });
 
     }
-    catch(err){
 
-      console.log(err);
-      
-      getAllDoctors();
-
-
-    }
-    
 
 
 
@@ -345,13 +480,13 @@ function Appointment() {
               <div className='mx-3'>
                 <h3 className='text-xs text-yellow-500 mb-2'>UPCOMING APPOINTMENTS </h3>
                 <h4 className='text-xl text-white mb-2'>Next visit: <span className='text-yellow-500'>{upcomingAppointment?.doctorID?.fullName}</span> {new Date(upcomingAppointment?.appointmentDate).toLocaleDateString("en-GB",
-                {
-                  weekday:"long",
-                  day: 'numeric',
-                  month: 'short',
-                  year: 'numeric'
+                  {
+                    weekday: "long",
+                    day: 'numeric',
+                    month: 'short',
+                    year: 'numeric'
 
-                })}</h4>
+                  })}</h4>
                 <div className='flex gap-1'>
                   <MdLocationPin className='text-red-700 text-lg' />
                   <h6 className='text-xs ' style={{ color: '#ced3d7' }}>{upcomingAppointment?.doctorID?.hospitalName}, {upcomingAppointment?.doctorID?.location} . 11.00 AM </h6>
@@ -461,7 +596,7 @@ function Appointment() {
                         </div>
                         <div className='flex items-center gap-2'>
                           <h6 className='text-sm text-yellow-600'>₹ {item.fee}/visit</h6>
-                          <MdDelete onClick={()=>deleteDoctor(item._id)} className='text-red-700' />
+                          <MdDelete onClick={() => deleteDoctor(item._id)} className='text-red-700' />
 
 
                         </div>
@@ -541,17 +676,17 @@ function Appointment() {
             {/* modal add doctor */}
             <Modal dismissible show={openModal} onClose={() => setOpenModal(false)}>
               <ModalHeader className='bg-green-900!'>Add A Doctor</ModalHeader>
-              <ModalBody className='bg-gray-700! h-full'>
+              <ModalBody className='bg-white! h-full'>
                 <div className="space-y-6">
-                  <Label>Full Name </Label>
+                  <Label className='text-black!'>Full Name </Label>
                   <TextInput onChange={(e) => setAddDoctor({ ...addDoctor, fullName: e.target.value })} value={addDoctor.fullName} placeholder='Mathew Devassey' className=' text-black! border-gray-300! placeholder:bg-white!'  ></TextInput>
-                  <Label>Specialization  </Label>
+                  <Label  className='text-black!'>Specialization  </Label>
                   <TextInput onChange={(e) => setAddDoctor({ ...addDoctor, specialization: e.target.value })} value={addDoctor.specialization} placeholder='Cardiologist' className=' text-black! border-gray-300! placeholder:bg-white!'  ></TextInput>
-                  <Label>Hospital Name </Label>
+                  <Label  className='text-black!'>Hospital Name </Label>
                   <TextInput onChange={(e) => setAddDoctor({ ...addDoctor, hospitalName: e.target.value })} value={addDoctor.hospitalName} placeholder='Aster Medicity Hospital' className=' text-black! border-gray-300! placeholder:bg-white!'  ></TextInput>
-                  <Label>Location  </Label>
+                  <Label  className='text-black!'>Location  </Label>
                   <TextInput onChange={(e) => setAddDoctor({ ...addDoctor, location: e.target.value })} value={addDoctor.location} placeholder='eg:Kochi,Kerala' className=' text-black! border-gray-300! placeholder:bg-white!'  ></TextInput>
-                  <Label>Fees  </Label>
+                  <Label  className='text-black!'>Fees  </Label>
                   <TextInput onChange={(e) => setAddDoctor({ ...addDoctor, fee: e.target.value })} value={addDoctor.fee} placeholder='eg: 1200' className=' text-black! border-gray-300! placeholder:bg-white!'  ></TextInput>
 
 

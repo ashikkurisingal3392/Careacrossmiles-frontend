@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import UserSidebar from '../components/UserSidebar'
 import CareHeader from '../components/CareHeader'
 import { SlCalender } from "react-icons/sl";
@@ -6,7 +6,9 @@ import { CiCreditCard1 } from "react-icons/ci";
 import { Button, Label, Select, Textarea, TextInput ,FileInput } from 'flowbite-react';
 import { IoIosAdd } from "react-icons/io";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
-import { addPharmacyAPI } from '../../../service/allAPIs';
+import { addPharmacyAPI, deletePharmacyAPI, getAllPharmacyAPI } from '../../../service/allAPIs';
+import { MdDelete } from "react-icons/md";
+import Swal from 'sweetalert2'
 
 function Medicines() {
 
@@ -17,21 +19,27 @@ function Medicines() {
     address:''
 
    })
+
+   const[pharmacyList,setPharmacyList]=useState([])
+
     const handleModalClose = () => {
     setOpenModal(false)
   }
       const handleModalOpen = () => {
     setOpenModal(true)
   }
-
+  
+  //add new pharmacy
   const handleAddPharmacy=async()=>{
 
     console.log(pharmacy);
 
-    try{
+    if(pharmacy.pharmacyName && pharmacy.address){
+
+        try{
 
        const token = sessionStorage.getItem('token')
-      console.log("token :", token);
+       console.log("token :", token);
 
       const reqHeader = {
         Authorization: `Bearer ${token}`
@@ -54,6 +62,8 @@ function Medicines() {
 
           alert(response.data.message)
 
+          getAllPharmacy();
+
           setPharmacy({
             pharmacyName:"",
             address:""
@@ -67,10 +77,104 @@ function Medicines() {
       
     }
 
+    }
+    else{
+
+      alert("please fill forms")
+    }
+
+  
+
     
       
 
   }
+
+    const getAllPharmacy = async () => {
+  
+      try {
+        const token = sessionStorage.getItem('token')
+        // console.log("token :", token);
+  
+        const reqHeader = {
+          Authorization: `Bearer ${token}`
+        }
+  
+        const response = await getAllPharmacyAPI(reqHeader)
+         console.log(response);
+
+         setPharmacyList(response.data.pharmacyList)
+  
+      }
+      catch (err) {
+  
+        console.log(err);
+        console.log(err.response.data.message);
+      }
+    }
+
+     const deletePharmacy = async (id) => {
+    
+        console.log(id);
+    
+    
+        try {
+    
+          const token = sessionStorage.getItem('token')
+          console.log("token :", token);
+    
+          const reqHeader = {
+            Authorization: `Bearer ${token}`
+          }
+    
+          const response = await deletePharmacyAPI(id, reqHeader)
+          console.log(response);
+          if (response.status == 200) {
+    
+    
+            Swal.mixin({
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+              }
+            }).fire({
+              icon: "success",
+              title: response.data.message
+            });
+            getAllPharmacy()
+          }
+    
+        }
+        catch (err) {
+           Swal.mixin({
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+              }
+            }).fire({
+              icon: "error",
+              title: err.response.data.message
+            });
+        }
+      }
+
+    useEffect(()=>{
+      getAllPharmacy()
+    },[])
+
+    console.log(pharmacyList);
+    
+
   return (
     <div>
 
@@ -347,49 +451,41 @@ function Medicines() {
 
                   </button>
                 </div>
+               {
+                pharmacyList?.length > 0?
 
-                <div className='flex justify-between gap-2 items-center border  rounded-2xl p-3' style={{ borderColor: "#e5c185" }}>
+                pharmacyList.map((item,index)=>(
+
+                   <div className='flex justify-between gap-2 items-center border  rounded-2xl p-3' style={{ borderColor: "#e5c185" }}>
                   <div className='flex  gap-2'>
                     <h3 className='text-3xl text-center rounded-full text-white bg-blue-700 border h-16 w-16 p-3'>AM</h3>
                     <div className=''>
-                      <h4 className='text-lg'>Aster Pharmacy</h4>
-                      <h5 className='text-xs text-gray-700'>MG road , kochi</h5>
+                      <h4 className='text-lg'>{item.pharmacyName}</h4>
+                      <h5 className='text-xs text-gray-700'>{item.address}</h5>
                       <h6 className='text-gray-700 text-xs'>open:8.00 AM </h6>
                     </div>
 
                   </div>
+                 <div className='flex items-center gap-2'>
 
-                  <h6 className='text-sm text-green-600'>open now</h6>
+                   <h6 className='text-sm text-green-600'>open now</h6>
+                   <MdDelete onClick={()=>deletePharmacy(item._id)} className='text-red-700!' />
 
-                </div>
-                 <div className='flex justify-between gap-2 items-center border  rounded-2xl p-3' style={{ borderColor: "#e5c185" }}>
-                  <div className='flex  gap-2'>
-                    <h3 className='text-3xl text-center rounded-full text-white bg-blue-700 border h-16 w-16 p-3'>AM</h3>
-                    <div className=''>
-                      <h4 className='text-lg'>Aster Pharmacy</h4>
-                      <h5 className='text-xs text-gray-700'>MG road , kochi</h5>
-                      <h6 className='text-gray-700 text-xs'>open:8.00 AM </h6>
-                    </div>
-
-                  </div>
-
-                  <h6 className='text-sm text-green-600'>open now</h6>
+                 </div>
+                 
 
                 </div>
-                 <div className='flex justify-between gap-2 items-center border  rounded-2xl p-3' style={{ borderColor: "#e5c185" }}>
-                  <div className='flex  gap-2'>
-                    <h3 className='text-3xl text-center rounded-full text-white bg-blue-700 border h-16 w-16 p-3'>AM</h3>
-                    <div className=''>
-                      <h4 className='text-lg'>Aster Pharmacy</h4>
-                      <h5 className='text-xs text-gray-700'>MG road , kochi</h5>
-                      <h6 className='text-gray-700 text-xs'>open:8.00 AM </h6>
-                    </div>
 
-                  </div>
 
-                  <h6 className='text-sm text-green-600'>open now</h6>
-
-                </div>
+                  
+                ))
+                
+                
+                
+                :"NO pharmacy"
+               }
+               
+                
 
 
               </div>

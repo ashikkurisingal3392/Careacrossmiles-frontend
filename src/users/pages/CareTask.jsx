@@ -15,7 +15,7 @@ import { Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
 import { useState } from "react";
 import { addTaskAPI, deleteTasksAPI, getAllHelpersAPI, getTasksAPI } from '../../../service/allAPIs';
 
-
+import Swal from 'sweetalert2'
 
 
 function CareTask() {
@@ -128,7 +128,21 @@ function CareTask() {
                 const response = await addTaskAPI(reqBody, reqHeader)
                 console.log(response);
                 if (response.status == 200) {
-                    alert(response.data.message)
+
+                    Swal.mixin({
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.onmouseenter = Swal.stopTimer;
+                            toast.onmouseleave = Swal.resumeTimer;
+                        }
+                    }).fire({
+                        icon: "success",
+                        title: response.data.message
+                    });
 
                     // reset everything
                     setTask({
@@ -179,7 +193,20 @@ function CareTask() {
             catch (err) {
                 console.log(err);
                 console.log(err.response);
-                alert(err.response.data.message)
+                Swal.mixin({
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                    }
+                }).fire({
+                    icon: "error",
+                    title: err.response.data.message
+                });
 
             }
 
@@ -253,12 +280,6 @@ function CareTask() {
         const confirmDelete = window.confirm("Are you sure to delete")
         if (!confirmDelete) return
 
-
-
-
-
-
-
         try {
 
             const token = sessionStorage.getItem('token')
@@ -273,7 +294,20 @@ function CareTask() {
             console.log(response);
             if (response.status == 200) {
 
-                alert(response.data.message)
+                Swal.mixin({
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                    }
+                }).fire({
+                    icon: "success",
+                    title: response.data.message
+                });
                 getAllTasks()
             }
 
@@ -283,6 +317,20 @@ function CareTask() {
             console.log(err.message);
 
             console.log(err.response?.data?.message)
+            Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            }).fire({
+                icon: "error",
+                title: err.response.data.message
+            });
 
 
         }
