@@ -9,14 +9,15 @@ import { Button, Label, Select, Textarea, TextInput } from 'flowbite-react';
 import { Dropdown, DropdownItem } from "flowbite-react";
 import { IoIosAdd } from "react-icons/io";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
-import { addDoctorAPI, bookAppointmentAPI, deleteAppointmentAPI, getAllAppointmentsAPI, getAllDoctorsAPI, updateAppointmentAPI } from '../../../service/allAPIs';
+import { addDoctorAPI, bookAppointmentAPI, deleteAppointmentAPI, deleteDoctorAPI, getAllAppointmentsAPI, getAllDoctorsAPI, updateAppointmentAPI } from '../../../service/allAPIs';
+import { MdDelete } from "react-icons/md";
 
 function Appointment() {
 
   const [openModal, setOpenModal] = useState(false);
   //update appointment date
-  const[openUpdateAppointment,setOpenUpdateAppointment]=useState(false)
-  const[updatedDate,setUpdatedDate]=useState("")
+  const [openUpdateAppointment, setOpenUpdateAppointment] = useState(false)
+  const [updatedDate, setUpdatedDate] = useState("")
   const [selectedAppointmentId, setSelectedAppointmentId] = useState(null);
 
   const [doctors, setDoctors] = useState([])
@@ -43,7 +44,7 @@ function Appointment() {
   const handleModalClose = () => {
     setOpenModal(false)
   }
-   const handleAppointmentModalClose = () => {
+  const handleAppointmentModalClose = () => {
     setOpenUpdateAppointment(false)
   }
 
@@ -120,7 +121,7 @@ function Appointment() {
       }
       catch (err) {
 
-        
+
         alert(err.response.data.message)
 
         console.log(err.response.data.message)
@@ -219,13 +220,13 @@ function Appointment() {
 
         appointmentDate: updatedDate
       }
-     
+
       console.log(reqBody);
       console.log(selectedAppointmentId);
-      
-      const response = await updateAppointmentAPI(selectedAppointmentId,reqBody,reqHeader)
+
+      const response = await updateAppointmentAPI(selectedAppointmentId, reqBody, reqHeader)
       console.log(response);
-      if(response.status ==200){
+      if (response.status == 200) {
 
         alert(response.data.message)
         setOpenUpdateAppointment(false)
@@ -244,7 +245,7 @@ function Appointment() {
   const deleteAppointment = async (id) => {
 
     console.log(id);
-    
+
 
     try {
 
@@ -255,9 +256,9 @@ function Appointment() {
         Authorization: `Bearer ${token}`
       }
 
-      const response = await deleteAppointmentAPI(id,reqHeader)
+      const response = await deleteAppointmentAPI(id, reqHeader)
       console.log(response);
-      if(response.status ==200){
+      if (response.status == 200) {
 
         alert(response.data.message)
         getAllAppointments();
@@ -271,6 +272,44 @@ function Appointment() {
   }
 
 
+  const upcomingAppointment = showAppointments.filter(item => new Date(item.appointmentDate) > new Date)
+    .sort((a, b) => new Date(a.appointmentDate) - new Date(b.appointmentDate))[0];
+
+  // console.log(upcomingAppointment);
+
+  //delete doctor
+  const deleteDoctor=async(id)=>{
+
+    console.log(id);
+
+     const token = sessionStorage.getItem('token')
+      console.log("token :", token);
+
+      const reqHeader = {
+        Authorization: `Bearer ${token}`
+      }
+
+    try{
+
+      const response= await deleteDoctorAPI(id,reqHeader)
+      console.log(response);
+      
+
+    }
+    catch(err){
+
+      console.log(err);
+      
+      getAllDoctors();
+
+
+    }
+    
+
+
+
+
+  }
 
 
   useEffect(() => {
@@ -279,8 +318,8 @@ function Appointment() {
 
   }, [])
 
-  console.log(doctors);
-  console.log(showAppointments);
+  // console.log(doctors);
+  // console.log(showAppointments);
 
 
   return (
@@ -305,10 +344,17 @@ function Appointment() {
             <div className='flex flex-col gap-4  md:flex-row md:justify-between mx-auto md:items-center bg-linear-to-r/srgb from-green-800 to-green-700 p-4 rounded-3xl' >
               <div className='mx-3'>
                 <h3 className='text-xs text-yellow-500 mb-2'>UPCOMING APPOINTMENTS </h3>
-                <h4 className='text-xl text-white mb-2'>Next visit:<span className='text-yellow-500'>Dr.Luffy</span>  tomorrow</h4>
+                <h4 className='text-xl text-white mb-2'>Next visit: <span className='text-yellow-500'>{upcomingAppointment?.doctorID?.fullName}</span> {new Date(upcomingAppointment?.appointmentDate).toLocaleDateString("en-GB",
+                {
+                  weekday:"long",
+                  day: 'numeric',
+                  month: 'short',
+                  year: 'numeric'
+
+                })}</h4>
                 <div className='flex gap-1'>
                   <MdLocationPin className='text-red-700 text-lg' />
-                  <h6 className='text-xs ' style={{ color: '#ced3d7' }}>Amrita Hospital,Kochi . 11.00 AM </h6>
+                  <h6 className='text-xs ' style={{ color: '#ced3d7' }}>{upcomingAppointment?.doctorID?.hospitalName}, {upcomingAppointment?.doctorID?.location} . 11.00 AM </h6>
                 </div>
 
               </div>
@@ -363,8 +409,8 @@ function Appointment() {
                           <h4 className='text-sm text-gray-700'>Fee: ₹ {item.doctorID?.fee || "--"}</h4>
                         </div>
                         <div className='flex gap-3'>
-                          <Button onClick={()=>{setSelectedAppointmentId(item._id);setOpenUpdateAppointment(true); }} color="green" outline className='text-green-700'>Reschedule</Button>
-                          <Button onClick={()=>deleteAppointment(item._id)} color="red" outline className='text-red-700'>Cancel</Button>
+                          <Button onClick={() => { setSelectedAppointmentId(item._id); setOpenUpdateAppointment(true); }} color="green" outline className='text-green-700'>Reschedule</Button>
+                          <Button onClick={() => deleteAppointment(item._id)} color="red" outline className='text-red-700'>Cancel</Button>
                         </div>
                       </div>
 
@@ -413,8 +459,13 @@ function Appointment() {
                           </div>
 
                         </div>
+                        <div className='flex items-center gap-2'>
+                          <h6 className='text-sm text-yellow-600'>₹ {item.fee}/visit</h6>
+                          <MdDelete onClick={()=>deleteDoctor(item._id)} className='text-red-700' />
 
-                        <h6 className='text-sm text-yellow-600'>₹ {item.fee}/visit</h6>
+
+                        </div>
+
 
                       </div>
 
@@ -446,7 +497,7 @@ function Appointment() {
                     <div className='w-full'>
                       <Label className='text-black!'>Patients</Label>
                       <Select onChange={(e) => setAppointment({ ...appointment, patientName: e.target.value })} value={appointment.patientName} className='bg-white! text-black!   focus:ring-0 ' label="Choose your Patient">
-                          <option value="" className='text-white bg-green-800 w-48 hover:bg-green-950!  '>Choose your option</option>
+                        <option value="" className='text-white bg-green-800 w-48 hover:bg-green-950!  '>Choose your option</option>
                         <option value="Father" className='text-white bg-green-800 w-48 hover:bg-green-950!  '>Father</option>
                         <option value="Mother" className='text-white bg-green-800 w-48 hover:bg-green-950!'>Mother</option>
 

@@ -22,8 +22,9 @@ function UserSidebar() {
 
         setToken(sessionStorage.getItem("token"))
 
-        setUserDetails(JSON.parse(sessionStorage.getItem("existingUser")))
+       setUserDetails(JSON.parse(sessionStorage.getItem("existingUser")))
     }, [token])
+    
 
     return (
         <div className='h-full '>
@@ -46,7 +47,7 @@ function UserSidebar() {
                     <div className='flex  justify-start items-center gap-3 border border-yellow-400 rounded-lg w-60 p-2 bg-linear-to-r/srgb from-yellow-600 to-green-700'>
                         <FcHome className='text-5xl border rounded-4xl p-2 border-yellow-400 bg-amber-100' />
                         <div className='flex flex-col justify-center items-center '>
-                            <h1 className='text-md font-bold text-white'>Antony Family</h1>
+                            <h1 className='text-md font-bold text-white'>{userDetails.family || "Active"} Family</h1>
 
                             <div className='flex items-center w-full'><FaMapPin className='text-red-700 text-md mx-1' /><h6 className='text-xs  text-gray-900 w-full '>Ernakulam, Kerala</h6></div>
                         </div>
@@ -130,16 +131,20 @@ function UserSidebar() {
                             label={
                                 <Avatar alt="User settings" img={userDetails.profile} rounded />
                             }
+
+                           className='bg-black! '
+                        //    style={{ backgroundColor: '#ffffea' }}
+                            
                         >
 
-                            <DropdownHeader>
+                            <DropdownHeader className='hover:bg-green-950!'>
                                 <span className="block text-sm">{userDetails.username}</span>
                                 <span className="block truncate text-sm font-medium">{userDetails.email}</span>
                             </DropdownHeader>
-                            <DropdownItem>Profile</DropdownItem>
-                            <DropdownItem>Settings</DropdownItem>
+                            <DropdownItem className='hover:bg-green-950!'>Profile</DropdownItem>
+                            {/* <DropdownItem>Settings</DropdownItem> */}
                             <DropdownDivider />
-                           <Link to={'/login'}><DropdownItem>Sign out</DropdownItem></Link> 
+                           <Link to={'/login'}><DropdownItem className='hover:bg-green-950!'>Sign out</DropdownItem></Link> 
                         </Dropdown>
                             :
                             <Dropdown

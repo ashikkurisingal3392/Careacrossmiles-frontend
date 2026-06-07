@@ -117,6 +117,14 @@ export const bookAppointmentAPI=async(reqBody,reqHeader)=>{
 
 }
 
+//delete a doctor
+
+export const deleteDoctorAPI=async(id,reqHeader)=>{
+
+    return await commonAPI("DELETE",`${serverURL}/api/doctor/${id}`,"",reqHeader)
+
+}
+
 //all appointments list
 
 export const getAllAppointmentsAPI=async(reqHeader)=>{
@@ -154,3 +162,4 @@ export const addPharmacyAPI=async(reqBody,reqHeader)=>{
     return await commonAPI("POST",`${serverURL}/api/pharmacy`,reqBody,reqHeader)
 
 }
+

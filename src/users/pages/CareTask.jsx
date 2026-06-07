@@ -39,7 +39,7 @@ function CareTask() {
         userEmail: "",
         family: '',
         uploadedImages: [],
-        budget:""
+        budget: ""
     })
 
     const [helpers, setHelpers] = React.useState([])
@@ -52,6 +52,7 @@ function CareTask() {
 
 
     }, [])
+
 
     // console.log(showTasks);
 
@@ -85,9 +86,9 @@ function CareTask() {
     }
     //to create a new task
     const handleAddTask = async () => {
-       
 
-         console.log(task);
+
+        console.log(task);
 
         const { title, payment, location, helper, carerecipient, date, description, category, family, uploadedImages } = task
 
@@ -117,35 +118,39 @@ function CareTask() {
                     }
                 }
 
-                console.log(reqBody);
-                
+                // console.log(reqBody);
+                //   check datas in formdata
+                // for (let pair of reqBody.entries()) {
+                //     console.log(pair[0], pair[1]);
+                // }
+
 
                 const response = await addTaskAPI(reqBody, reqHeader)
                 console.log(response);
                 if (response.status == 200) {
                     alert(response.data.message)
 
-                      // reset everything
-                setTask({
-                    title: "",
-                    payment: "",
-                    location: "",
-                    helper: "",
-                    carerecipient: "",
-                    date: "",
-                    description: "",
-                    category: "",
-                    userEmail: "",
-                    family: "",
-                    budget: "",
-                    uploadedImages: []
-                });
+                    // reset everything
+                    setTask({
+                        title: "",
+                        payment: "",
+                        location: "",
+                        helper: "",
+                        carerecipient: "",
+                        date: "",
+                        description: "",
+                        category: "",
+                        userEmail: "",
+                        family: "",
+                        budget: "",
+                        uploadedImages: []
+                    });
 
-                setPreview('');
-                setPreviewList([]);
-                 getAllTasks();
+                    setPreview('');
+                    setPreviewList([]);
+                    getAllTasks();
 
-                     setOpenModal(false)
+                    setOpenModal(false)
                 } else {
                     alert("error while adding book")
 
@@ -168,12 +173,12 @@ function CareTask() {
 
                 setPreview('');
                 setPreviewList([]);
-                 getAllTasks();
+                getAllTasks();
 
             }
             catch (err) {
                 console.log(err);
-                console.log(err.response.data.message);
+                console.log(err.response);
                 alert(err.response.data.message)
 
             }
@@ -184,7 +189,7 @@ function CareTask() {
         }
 
     }
-   //all helper details fetching
+    //all helper details fetching
     const getAllHelpers = async () => {
 
         try {
@@ -209,7 +214,7 @@ function CareTask() {
 
         }
     }
-  //to get all  task created by user
+    //to get all  task created by user
     const getAllTasks = async () => {
 
         try {
@@ -236,53 +241,53 @@ function CareTask() {
         }
 
     }
-  
+
     //delete a task
 
-    const handleDelete=async(id)=>{
+    const handleDelete = async (id) => {
 
         // console.log(checkBox);
 
         console.log(id);
 
-        const confirmDelete =  window.confirm("Are you sure to delete")
-        if(!confirmDelete) return
-
-       
-
-            
-            
+        const confirmDelete = window.confirm("Are you sure to delete")
+        if (!confirmDelete) return
 
 
-        try{
 
-             const token = sessionStorage.getItem('token')
-        const reqHeader = {
+
+
+
+
+        try {
+
+            const token = sessionStorage.getItem('token')
+            const reqHeader = {
                 Authorization: `Bearer ${token}`
             }
             console.log(reqHeader);
 
-            const response= await deleteTasksAPI(id,reqHeader)
+            const response = await deleteTasksAPI(id, reqHeader)
 
-          
+
             console.log(response);
-            if(response.status==200){
+            if (response.status == 200) {
 
                 alert(response.data.message)
-                 getAllTasks()
+                getAllTasks()
             }
-            
+
 
         }
-        catch(err){
-           console.log(err.message);
-           
+        catch (err) {
+            console.log(err.message);
+
             console.log(err.response?.data?.message)
 
 
         }
-        
-        
+
+
 
     }
 
@@ -326,7 +331,7 @@ function CareTask() {
 
                                 </div>
 
-                                <h1 className='text-2xl font-bold'>{showTasks.filter(task=>task.status==="completed").length}</h1>
+                                <h1 className='text-2xl font-bold'>{showTasks.filter(task => task.status === "completed").length}</h1>
                                 <h6 className='text-xs text-gray-500'>Completed</h6>
 
 
@@ -337,7 +342,7 @@ function CareTask() {
                                     <p className='text-xs  bg-orange-200 text-orange-700 p-1 rounded-xl'>Active</p>
                                 </div>
 
-                                <h1 className='text-2xl font-bold'>{showTasks.filter(task=>task.status==="inprogress").length}</h1>
+                                <h1 className='text-2xl font-bold'>{showTasks.filter(task => task.status === "inprogress").length}</h1>
                                 <h6 className='text-xs text-gray-500'>Care tasks Inprogress  </h6>
 
 
@@ -369,9 +374,9 @@ function CareTask() {
                                         </div>
 
                                         <h6 className='text-xs text-center bg-gray-200 p-1 rounded-full h-6 w-6'>{
-                                             showTasks.filter(task=>task.status==="open").length
-                                            }</h6>
-                                            
+                                            showTasks.filter(task => task.status === "open").length
+                                        }</h6>
+
                                     </div>
                                     <div className='flex flex-col gap-2 mt-4 '>
                                         {
@@ -382,7 +387,7 @@ function CareTask() {
                                                         <div key={index} className='border rounded-2xl p-3 border-white bg-white shadow-xl transition delay-50 duration-300 ease-in-out hover:-translate-y-1 hover:scale-100  '>
                                                             <div className='flex justify-between mb-2'>
                                                                 <h3 className='text-md font-bold'>{item.title}</h3>
-                                                                <Checkbox  className='w-6' color='green' style={{ borderColor: '#e5c185', backgroundColor: '#74a892' }} />
+                                                                <Checkbox className='w-6' color='green' style={{ borderColor: '#e5c185', backgroundColor: '#74a892' }} />
                                                             </div>
                                                             <div className='flex gap-1 text-center mb-2'>
                                                                 <GrLocationPin className='text-red-700' />
@@ -404,11 +409,11 @@ function CareTask() {
 
                                                                 </div>
                                                                 <div className='flex items-center  gap-3'>
-                                                                     <h6 className='flex items-center justify-cente text-sm bg-red-200 text-red-700 h-8 rounded-xl p-1'>{item.helper}</h6>
-                                                                <Button onClick={()=>handleDelete(item._id)} color="red" className=' h-8 px-3 text-sm flex items-center justify-center'>Delete</Button>
+                                                                    <h6 className='flex items-center justify-cente text-sm bg-red-200 text-red-700 h-8 rounded-xl p-1'>{item.helper}</h6>
+                                                                    <Button onClick={() => handleDelete(item._id)} color="red" className=' h-8 px-3 text-sm flex items-center justify-center'>Delete</Button>
 
                                                                 </div>
-                                                               
+
                                                             </div>
                                                         </div>
 
@@ -434,10 +439,10 @@ function CareTask() {
                                         </div>
 
                                         <h6 className='text-xs text-center bg-gray-200 p-1 rounded-full h-6 w-6'>{
-                                            
-                                            showTasks.filter(task=>task.status==="inprogress").length
-                                            
-                                            }</h6>
+
+                                            showTasks.filter(task => task.status === "inprogress").length
+
+                                        }</h6>
                                     </div>
                                     <div className='flex flex-col gap-2 mt-4 '>
 
@@ -470,7 +475,7 @@ function CareTask() {
                                                                     <h5 className='text-sm text-gray-500'>{item.carerecipient}</h5>
 
                                                                 </div>
-                                                                <h6 className='flex items-center justify-cente text-sm bg-red-200 text-red-700 h-8 rounded-xl p-1'>{item.helper ||"no helper"}</h6>
+                                                                <h6 className='flex items-center justify-cente text-sm bg-red-200 text-red-700 h-8 rounded-xl p-1'>{item.helper || "no helper"}</h6>
                                                             </div>
                                                         </div>
 
@@ -497,50 +502,50 @@ function CareTask() {
 
                                         <h6 className='text-xs text-center bg-gray-200 p-1 rounded-full h-6 w-6'>{
 
-                                            showTasks.filter(item=>item.status==='completed').length
-                                            
-                                            }</h6>
+                                            showTasks.filter(item => item.status === 'completed').length
+
+                                        }</h6>
                                     </div>
                                     <div className='flex flex-col gap-2 mt-4 '>
                                         {
-                                            showTasks.length>0?
-                                            showTasks.filter(task=>task.status==="completed")
-                                            .map(item=>(
-                                                 <div className='border rounded-2xl p-3 border-white bg-white shadow-xl transition delay-50 duration-300 ease-in-out hover:-translate-y-1 hover:scale-100 '>
-                                            <div className='flex justify-between mb-2'>
-                                                <h3 className='text-md font-bold'>{item.title}</h3>
-                                                <Checkbox className='w-6' color='green' style={{ borderColor: '#e5c185', backgroundColor: '#74a892' }} />
-                                            </div>
-                                            <div className='flex gap-1 text-center mb-2'>
-                                                <GrLocationPin className='text-red-700' />
-                                                <h4 className='text-sm text-gray-700'>{item.location}</h4>
-                                            </div>
-                                            <div className='flex gap-2 text-center mb-2'>
-                                                <SlCalender className='text-green-900' />
-                                                <h4 className='text-sm text-gray-500'>{new Date(item.date).toLocaleDateString('en-GB', {
+                                            showTasks.length > 0 ?
+                                                showTasks.filter(task => task.status === "completed")
+                                                    .map(item => (
+                                                        <div className='border rounded-2xl p-3 border-white bg-white shadow-xl transition delay-50 duration-300 ease-in-out hover:-translate-y-1 hover:scale-100 '>
+                                                            <div className='flex justify-between mb-2'>
+                                                                <h3 className='text-md font-bold'>{item.title}</h3>
+                                                                <Checkbox className='w-6' color='green' style={{ borderColor: '#e5c185', backgroundColor: '#74a892' }} />
+                                                            </div>
+                                                            <div className='flex gap-1 text-center mb-2'>
+                                                                <GrLocationPin className='text-red-700' />
+                                                                <h4 className='text-sm text-gray-700'>{item.location}</h4>
+                                                            </div>
+                                                            <div className='flex gap-2 text-center mb-2'>
+                                                                <SlCalender className='text-green-900' />
+                                                                <h4 className='text-sm text-gray-500'>{new Date(item.date).toLocaleDateString('en-GB', {
                                                                     day: 'numeric',
                                                                     month: 'short',
                                                                     year: 'numeric'
                                                                 })}</h4>
 
-                                            </div>
+                                                            </div>
 
-                                            <div className='flex justify-between'>
-                                                <div className='flex'>
-                                                    <h5 className='bg-green-500 text-xs text-white w-6 h-6 text-center  rounded-full me-1 p-1'>A</h5>
-                                                    <h5 className='text-sm text-gray-500'>{item.carerecipient}</h5>
+                                                            <div className='flex justify-between'>
+                                                                <div className='flex'>
+                                                                    <h5 className='bg-green-500 text-xs text-white w-6 h-6 text-center  rounded-full me-1 p-1'>A</h5>
+                                                                    <h5 className='text-sm text-gray-500'>{item.carerecipient}</h5>
 
-                                                </div>
-                                                <h6 className='flex items-center justify-cente text-sm bg-red-200 text-red-700 h-8 rounded-xl p-1'>{item.helper}</h6>
-                                            </div>
-                                        </div>
+                                                                </div>
+                                                                <h6 className='flex items-center justify-cente text-sm bg-red-200 text-red-700 h-8 rounded-xl p-1'>{item.helper}</h6>
+                                                            </div>
+                                                        </div>
 
 
-                                            ))
-                                            :"no more completed tasks"
+                                                    ))
+                                                : "no more completed tasks"
                                         }
-                                       
-                                       
+
+
 
                                     </div>
 
@@ -550,24 +555,24 @@ function CareTask() {
                         </div>
 
                         {/* modal:add task */}
-                        <Modal dismissible show={openModal} onClose={() => setOpenModal(false)}>
-                            <ModalHeader className='bg-green-900!'>Create A Task</ModalHeader>
-                            <ModalBody className='bg-gray-700! h-full'>
+                        <Modal dismissible show={openModal} onClose={() => setOpenModal(false)} >
+                            <ModalHeader className='bg-green-800!' >Create A Task</ModalHeader>
+                            <ModalBody className='bg-gray-50! p-6! max-h-[70vh] overflow-y-auto'>
                                 <div className="space-y-6">
-                                    <Label>Task Title</Label>
-                                    <TextInput placeholder='Task title' onChange={e => setTask({ ...task, title: e.target.value })} value={task.title} className=' text-black! border-gray-300! placeholder:bg-white!'  ></TextInput>
-                                    <Label>Task Payment</Label>
+                                    <Label className='text-black!'>Task Title</Label>
+                                    <TextInput placeholder='Task title' onChange={e => setTask({ ...task, title: e.target.value })} value={task.title} className=''  ></TextInput>
+                                    <Label className='text-black!'>Task Payment</Label>
                                     <TextInput placeholder='Task payment in rupees' onChange={e => setTask({ ...task, payment: e.target.value })} value={task.payment} ></TextInput>
-                                    <Label>Task Location</Label>
+                                    <Label className='text-black!'>Task Location</Label>
                                     <TextInput onChange={e => setTask({ ...task, location: e.target.value })} value={task.location} placeholder='Enter the Address'></TextInput>
-                                    <Label>Task Assign for?</Label>
+                                    <Label className='text-black!'>Task Assign for?</Label>
                                     <Select onChange={e => setTask({ ...task, carerecipient: e.target.value })} value={task.carerecipient} placeholder='choose your option' >
-                                       <option value="">Choose CareRecipient</option>
+                                        <option value="">Choose CareRecipient</option>
                                         <option value="Father">Father</option>
                                         <option value="Mother">Mother</option>
                                         <option value="Family">Family</option>
                                     </Select>
-                                    <Label>Task Assign to?</Label>
+                                    <Label className='text-black!'>Task Assign to?</Label>
                                     <Select onChange={e => setTask({ ...task, helper: e.target.value })} value={task.helper} placeholder='choose your helper' >
                                         <option value="">Choose Helper</option>
                                         {
@@ -585,21 +590,21 @@ function CareTask() {
                                         <option>Nirmal</option>
                                         <option>Manu</option> */}
                                     </Select>
-                                    <Label>Category</Label>
-                                    <Select onChange={e => setTask({ ...task,category:e.target.value })} value={task.category} >
-                                         <option value="">Choose category</option>
+                                    <Label className='text-black!'>Category</Label>
+                                    <Select onChange={e => setTask({ ...task, category: e.target.value })} value={task.category} >
+                                        <option value="">Choose category</option>
                                         <option value="Home Maintenance">Home Maintenance</option>
                                         <option value="Hospital & Medical">Hospital & Medical</option>
                                         <option value="Bills & Payments">Bills & Payments</option>
                                         <option value="grocery shopping">grocery shopping</option>
                                         <option value="Other">Other </option>
                                     </Select>
-                                    <Label>Family</Label>
+                                    <Label className='text-black!'>Family</Label>
                                     <TextInput onChange={e => setTask({ ...task, family: e.target.value })} value={task.family} placeholder='Enter your family name' ></TextInput>
-                                    <Label>Budget</Label>
+                                    <Label className='text-black!'>Budget</Label>
                                     <TextInput onChange={e => setTask({ ...task, budget: e.target.value })} value={task.budget} placeholder='Enter your budget in rupees'></TextInput>
-                                    <Label>Task date</Label>
-                                    <Datepicker onChange={e => setTask({ ...task, date: e })}  />
+                                    <Label className='text-black!'>Task date</Label>
+                                    <Datepicker onChange={e => setTask({ ...task, date: e })} />
 
                                     {
                                         preview && previewList.length <= 3 ?
@@ -611,15 +616,15 @@ function CareTask() {
 
                                             : ""
                                     }
-                                    <Label>Choose your files</Label>
+                                    <Label className='text-black!'>Choose your files (png/jpg/jpeg only)</Label>
                                     <FileInput id="file-upload" onChange={(e) => handleUpload(e)} />
-                                    <Label>Task Description </Label>
+                                    <Label className='text-black!'>Task Description </Label>
                                     <Textarea onChange={e => setTask({ ...task, description: e.target.value })} value={task.description} placeholder="Enter details of task " rows={4} />
 
                                 </div>
                             </ModalBody>
-                            <ModalFooter className='bg-green-900!'>
-                                <Button className='bg-green-700! hover:bg-green-950!' onClick={handleAddTask}>Submit</Button>
+                            <ModalFooter className='bg-green-800!'>
+                                <Button style={{ backgroundColor: '#e5c185' }} className='hover:bg-linear-to-r/srgb from-yellow-600 to-green-700 focus:ring-0' onClick={handleAddTask}>Submit</Button>
 
                             </ModalFooter>
                         </Modal>
