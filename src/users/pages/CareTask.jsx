@@ -87,7 +87,7 @@ function CareTask() {
     const handleAddTask = async () => {
        
 
-        // console.log(task);
+         console.log(task);
 
         const { title, payment, location, helper, carerecipient, date, description, category, family, uploadedImages } = task
 
@@ -106,6 +106,7 @@ function CareTask() {
 
                 const reqBody = new FormData()
 
+
                 for (let key in task) {
 
                     if (key != 'uploadedImages') {
@@ -115,6 +116,9 @@ function CareTask() {
                         task.uploadedImages.forEach(item => reqBody.append("uploadedImages", item))
                     }
                 }
+
+                console.log(reqBody);
+                
 
                 const response = await addTaskAPI(reqBody, reqHeader)
                 console.log(response);
@@ -169,7 +173,7 @@ function CareTask() {
             }
             catch (err) {
                 console.log(err);
-                console.log(response.data.message);
+                console.log(err.response.data.message);
                 alert(err.response.data.message)
 
             }
