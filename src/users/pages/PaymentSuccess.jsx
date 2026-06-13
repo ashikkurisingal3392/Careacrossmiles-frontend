@@ -4,8 +4,21 @@ import FooterMain from '../../components/FooterMain'
 import { Button } from 'flowbite-react'
 import CareHeader from '../components/CareHeader'
 import UserSidebar from '../components/UserSidebar'
+import { useNavigate } from 'react-router-dom'
 
 function PaymentSuccess() {
+
+     const navigate =useNavigate()
+
+const handleNavigation=()=>{
+
+
+    navigate('/dashboard')
+   
+
+    
+}
+
   return (
     <div>
 
@@ -24,7 +37,7 @@ function PaymentSuccess() {
             <h1 className='text-4xl font-semibold text-green-500 mb-2'>Payment Completed</h1>
             <h6 className='font-light text-lg'>A payment to helper successfull</h6>
             <div>
-              <Button color={"green"} className='mt-3' size='md'>Explore More </Button>
+              <Button onClick={handleNavigation} color={"green"} className='mt-3' size='md'>Home </Button>
             </div>
             
           </div>

@@ -18,6 +18,7 @@ import { addTaskAPI, deleteTasksAPI, getAllHelpersAPI, getTasksAPI, makePaymentA
 import Swal from 'sweetalert2'
 import { MdOutlinePayments } from "react-icons/md";
 import { loadStripe } from '@stripe/stripe-js';
+import { FcPaid } from "react-icons/fc";
 
 
 function CareTask() {
@@ -441,12 +442,14 @@ function CareTask() {
                             </div>
                             <div className='flex flex-col items-start border rounded-2xl p-4 gap-2 bg-white transition delay-50 duration-300 ease-in-out hover:-translate-y-1 hover:scale-100 hover:shadow-2xl' style={{ borderColor: '#e5c185' }}>
                                 <div className='flex  items-center justify-between w-full'>
-                                    <button className='p-3 rounded-md' style={{ backgroundColor: '#ffadad', opacity: '.9' }}><TbUrgent className='text-red-600' /></button>
-                                    <p className='text-xs  bg-red-200 text-red-700 p-1 rounded-xl'>Urgent</p>
+                                    <button className='p-3 rounded-md' style={{ backgroundColor: '#ffadad', opacity: '.9' }}><FcPaid className='text-red-600 text-md' /></button>
+                                    <p className='text-xs  bg-blue-200 text-blue-700 p-1 rounded-xl'>paid</p>
                                 </div>
 
-                                <h1 className='text-2xl font-bold'>2</h1>
-                                <h6 className='text-xs text-gray-500'>Overdue </h6>
+                                <h1 className='text-2xl font-bold'>{
+                                    showTasks.filter(task=>task.paymentStatus===true).length
+                                    }</h1>
+                                <h6 className='text-xs text-gray-500'>Transcations </h6>
 
 
                             </div>
