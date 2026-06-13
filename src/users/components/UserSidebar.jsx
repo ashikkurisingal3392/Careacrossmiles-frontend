@@ -20,10 +20,26 @@ function UserSidebar() {
 
     useEffect(() => {
 
-        setToken(sessionStorage.getItem("token"))
+        const storedToken=sessionStorage.getItem("token")
 
-       setUserDetails(JSON.parse(sessionStorage.getItem("existingUser")))
-    }, [token])
+        const storedUser=sessionStorage.getItem("existingUser")
+
+        if(storedToken) setToken(storedToken)
+        
+         if(storedUser) {
+            setUserDetails(JSON.parse(storedUser))
+
+         }
+         else{
+
+            setUserDetails({})
+
+         }
+
+    //     setToken(sessionStorage.getItem("token"))
+
+    //    setUserDetails(JSON.parse(sessionStorage.getItem("existingUser")))
+    }, [])
     
 
     return (
