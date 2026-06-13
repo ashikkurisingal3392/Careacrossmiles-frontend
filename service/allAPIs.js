@@ -176,3 +176,12 @@ export const deletePharmacyAPI=async(id,reqHeader)=>{
     return await commonAPI("DELETE",`${serverURL}/api/pharmacy/${id}`,"",reqHeader)
 
 }
+
+
+//make payment by user
+
+export const makePaymentAPI=async(id,reqBody,reqHeader)=>{
+
+    return await commonAPI("PUT",`${serverURL}/api/makepayment/${id}`,reqBody,reqHeader)
+
+}

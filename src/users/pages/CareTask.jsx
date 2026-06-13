@@ -13,9 +13,11 @@ import { Datepicker } from "flowbite-react";
 
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
 import { useState } from "react";
-import { addTaskAPI, deleteTasksAPI, getAllHelpersAPI, getTasksAPI } from '../../../service/allAPIs';
+import { addTaskAPI, deleteTasksAPI, getAllHelpersAPI, getTasksAPI, makePaymentAPI } from '../../../service/allAPIs';
 
 import Swal from 'sweetalert2'
+import { MdOutlinePayments } from "react-icons/md";
+import { loadStripe } from '@stripe/stripe-js';
 
 
 function CareTask() {
@@ -339,6 +341,48 @@ function CareTask() {
 
     }
 
+    //Handle payment
+
+    const handlePayment = async (id) => {
+
+        const taskData = showTasks.find(item => item._id === id)
+
+        console.log(taskData);
+
+        const stripe = await loadStripe('pk_test_51TQaTwQ11oPYTHq2c2vlvRM80OzHOMMe1DqipmYWB4SpUFbKjISV4rOvRCdV131Zz0e9dIM3k5nIY4tHvbuW2rB200DiZwt7m9');
+
+        console.log(stripe);
+
+        const token = sessionStorage.getItem('token')
+        // console.log("token :", token);
+
+        const reqHeader = {
+            Authorization: `Bearer ${token}`
+        }
+        
+        const reqBody =taskData
+
+        console.log(reqBody);
+        console.log(id);
+        
+        try{
+
+            const response= await makePaymentAPI(id,reqBody,reqHeader)
+            console.log(response);
+            
+
+        }
+        catch(err){
+
+            console.log(err);
+            
+
+
+        }
+
+
+    }
+
 
     return (
         <div>
@@ -457,7 +501,7 @@ function CareTask() {
 
                                                                 </div>
                                                                 <div className='flex items-center  gap-3'>
-                                                                    <h6 className='flex items-center justify-cente text-sm bg-red-200 text-red-700 h-8 rounded-xl p-1'>{item.helper}</h6>
+                                                                    <h6 className='flex items-center justify-cente text-sm bg-red-200 text-red-700 h-8 w-full rounded-xl p-1'>{item.helper}</h6>
                                                                     <Button onClick={() => handleDelete(item._id)} color="red" className=' h-8 px-3 text-sm flex items-center justify-center'>Delete</Button>
 
                                                                 </div>
@@ -523,7 +567,7 @@ function CareTask() {
                                                                     <h5 className='text-sm text-gray-500'>{item.carerecipient}</h5>
 
                                                                 </div>
-                                                                <h6 className='flex items-center justify-cente text-sm bg-red-200 text-red-700 h-8 rounded-xl p-1'>{item.helper || "no helper"}</h6>
+                                                                <h6 className='flex items-center justify-cente text-sm bg-red-200 text-red-700  h-8 rounded-xl p-1'>{item.helper || "no helper"}</h6>
                                                             </div>
                                                         </div>
 
@@ -584,7 +628,12 @@ function CareTask() {
                                                                     <h5 className='text-sm text-gray-500'>{item.carerecipient}</h5>
 
                                                                 </div>
-                                                                <h6 className='flex items-center justify-cente text-sm bg-red-200 text-red-700 h-8 rounded-xl p-1'>{item.helper}</h6>
+                                                                <div className='flex justify-between items-center gap-3'>
+                                                                    <h6 className='flex items-center justify-cente text-sm bg-red-200 text-red-700 w-full h-8 rounded-xl p-1'>{item.helper}</h6>
+                                                                    <Button onClick={() => handlePayment(item._id)} color="green" outline className='  w-full '><MdOutlinePayments className='me-2' />Pay</Button>
+
+                                                                </div>
+
                                                             </div>
                                                         </div>
 

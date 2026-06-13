@@ -13,6 +13,8 @@ import HelperTask from './helpers/pages/HelperTask'
 import HelperProfile from './helpers/pages/HelperProfile'
 import HelperCompleted from './helpers/pages/HelperCompleted'
 import HelperLayout from './helpers/pages/HelperLayout'
+import PaymentSuccess from './users/pages/PaymentSuccess'
+import PaymentError from './users/pages/PaymentError'
 
 
 function App() {
@@ -32,6 +34,11 @@ function App() {
       <Route path='/caretask' element={<CareTask/>}/>
       <Route path='/appointment' element={<Appointment appointment/>}/>
       <Route path='/medicines' element={<Medicines medicine/>}/>
+
+      {/* payment */}
+
+      <Route path='/paymentsuccess' element={<PaymentSuccess/>}/>
+        <Route path='/paymenterror' element={<PaymentError/>}/>
 
       {/* admin pages */}
 

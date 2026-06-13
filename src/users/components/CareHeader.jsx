@@ -16,7 +16,7 @@ function CareHeader({ medicine, appointment }) {
 
 
       <Navbar fluid rounded style={{ backgroundColor: '#fff0d4' }}>
-        <NavbarBrand href="https://flowbite-react.com" >
+        <NavbarBrand  >
           <div>
             <span className="self-center whitespace-nowrap text-xl font-semibold text-black">{medicine ? "Medicines" : appointment ? "Appointments" : "Care Tasks "}</span>
             <h6 className='text-sm text-gray-700 mb-2 md:mb-0'>{medicine ? "Track prescriptions, stock and reminders" : "Assign care tasks for Antony Family"}</h6>
