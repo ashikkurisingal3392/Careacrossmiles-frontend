@@ -276,7 +276,7 @@ function Medicines() {
                     <h4 className='text-sm text-gray-700'>Paid: ₹ 300 </h4>
                   </div>
                   <div>
-                    <Button color="green" outline className='text-green-700'>Cancel</Button>
+                    <Button color="red" outline className='text-red-700'>Cancel</Button>
                   </div>
 
 
@@ -506,7 +506,7 @@ function Medicines() {
                             </div>
                           </ModalBody>
                           <ModalFooter className='bg-green-900! gap-5'>
-                            <Button className='bg-green-700! hover:bg-green-950!' onClick={handleAddPharmacy}  >Add doctor</Button>
+                            <Button className='bg-green-700! hover:bg-green-950!' onClick={handleAddPharmacy}  >Add Pharmacy</Button>
                             <Button className='bg-red-700! hover:bg-red-950!' onClick={handleModalClose} >Cancel</Button>
             
                           </ModalFooter>

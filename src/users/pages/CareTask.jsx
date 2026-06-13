@@ -369,7 +369,7 @@ function CareTask() {
 
             const response= await makePaymentAPI(id,reqBody,reqHeader)
             console.log(response);
-            
+            window.location.href = response.data.url;
 
         }
         catch(err){
@@ -630,7 +630,12 @@ function CareTask() {
                                                                 </div>
                                                                 <div className='flex justify-between items-center gap-3'>
                                                                     <h6 className='flex items-center justify-cente text-sm bg-red-200 text-red-700 w-full h-8 rounded-xl p-1'>{item.helper}</h6>
-                                                                    <Button onClick={() => handlePayment(item._id)} color="green" outline className='  w-full '><MdOutlinePayments className='me-2' />Pay</Button>
+                                                                    {
+                                                                        item?.paymentStatus?<h6 className='flex items-center justify-cente text-sm bg-green-200 text-red-700 w-full h-8 rounded-xl p-1'>Paid</h6>
+                                                                        :
+                                                                        <Button onClick={() => handlePayment(item._id)} color="green" outline className='  w-full '><MdOutlinePayments className='me-2' />Pay</Button>
+                                                                    }
+                                                                    
 
                                                                 </div>
 

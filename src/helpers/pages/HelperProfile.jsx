@@ -399,7 +399,7 @@ function HelperProfile({helperDetails,setHelperDetails}) {
                                 </div>
                                 <div className="mb-5 mt-5">
                                     <Label className="mb-2 block">
-                                        Upload proof (receipt/photo/report)
+                                        Upload Photo (jpeg/png)
                                     </Label>
 
                                     <label className="cursor-pointer inline-block bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
