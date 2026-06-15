@@ -146,6 +146,9 @@ function Auth({ mode,role }) {
 
                     sessionStorage.setItem('token', response.data.token)
                     sessionStorage.setItem('existingUser', JSON.stringify(response.data.existingUser))
+                    //local storage for stripe redirection break 
+                     localStorage.setItem('token', response.data.token)
+                    localStorage.setItem('existingUser', JSON.stringify(response.data.existingUser))
 
                     if (response.data.existingUser.role === "user") {
                         setTimeout(() => {
