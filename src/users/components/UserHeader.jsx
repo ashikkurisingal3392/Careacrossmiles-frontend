@@ -13,9 +13,9 @@ function UserHeader() {
   const [userData, setUserData] = React.useState(null);
  
   useEffect(() => {
-    const stored = sessionStorage.getItem("existingUser");
-    if (stored) {
-      setUserData(JSON.parse(stored));
+    const storedUser = sessionStorage.getItem("existingUser");
+    if (storedUser) {
+      setUserData(JSON.parse(storedUser));
     }
   }, []);
 
