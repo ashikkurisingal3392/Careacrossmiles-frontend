@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Button, Navbar, NavbarBrand, NavbarCollapse, NavbarLink, NavbarToggle } from "flowbite-react";
 import { MdOutlineSettings } from "react-icons/md";
 import { MdNotificationsActive } from "react-icons/md";
@@ -6,15 +6,25 @@ import { Link } from 'react-router-dom';
 
 function UserHeader() {
 
-  let userData = {}
-  userData = JSON.parse(sessionStorage.getItem("existingUser"))
+  // let userData = {}
+  // userData = JSON.parse(sessionStorage.getItem("existingUser"))
 
-  console.log(userData);
+  // console.log(userData);
+  const [userData, setUserData] = React.useState(null);
+ 
+  useEffect(() => {
+    const stored = sessionStorage.getItem("existingUser");
+    if (stored) {
+      setUserData(JSON.parse(stored));
+    }
+  }, []);
+
+  if (!userData) return null;
 
   let currentDate = new Date()
   console.log(currentDate);
 
-  const handleSignout=()=>{
+  const handleSignout = () => {
 
     sessionStorage.clear()
   }
@@ -55,7 +65,7 @@ function UserHeader() {
           <Link to={'/appointment'} ><Button color='white' className='text-lg  text-white! hover:bg-gray-400! hover:text-white! mb-2 w-full' style={{ backgroundColor: '#e5c185' }} >Appointments</Button> </Link>
 
           <Link to={'/medicines'} ><Button color='white' className='text-lg  text-white! hover:bg-gray-400! hover:text-white! mb-2 w-full' style={{ backgroundColor: '#e5c185' }} >Medicine</Button> </Link>
-           <Link to={'/login'} ><Button onClick={handleSignout} color='white' className='text-lg  text-white! hover:bg-gray-400! hover:text-white! mb-2 w-full' style={{ backgroundColor: '#e5c185' }} >Sign out</Button> </Link>
+          <Link to={'/login'} ><Button onClick={handleSignout} color='white' className='text-lg  text-white! hover:bg-gray-400! hover:text-white! mb-2 w-full' style={{ backgroundColor: '#e5c185' }} >Sign out</Button> </Link>
 
         </NavbarCollapse>
       </Navbar>
