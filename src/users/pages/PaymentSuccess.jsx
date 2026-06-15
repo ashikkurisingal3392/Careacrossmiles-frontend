@@ -5,6 +5,7 @@ import { Button } from 'flowbite-react'
 import CareHeader from '../components/CareHeader'
 import UserSidebar from '../components/UserSidebar'
 import { useNavigate } from 'react-router-dom'
+import UserHeader from '../components/UserHeader'
 
 function PaymentSuccess() {
 
@@ -22,7 +23,7 @@ const handleNavigation=()=>{
     <div>
 
         <div>
-              <CareHeader></CareHeader>
+              <UserHeader></UserHeader>
 
         </div>
         <div>
@@ -34,14 +35,14 @@ const handleNavigation=()=>{
         <div className='grid grid-cols-2 p-4 min-h-screen'>
           <div className='flex flex-col justify-center'>
             <h1 className='text-4xl font-semibold text-green-500 mb-2'>Payment Completed</h1>
-            <h6 className='font-light text-lg'>A payment to helper successfull</h6>
+            <h6 className='font-light text-lg'>A payment to helper transfered successfully</h6>
             <div>
               <Button onClick={handleNavigation} color={"green"} className='mt-3' size='md'>Home </Button>
             </div>
             
           </div>
           <div className='flex flex-col justify-center'>
-            <img src="https://img.freepik.com/premium-vector/shopping-cart-with-check-mark-wireless-paymant-icon-shopping-bag-seccessful-paymant-sign-online-paymant-level-success-online-shopping-vector_662353-911.jpg" alt="" />
+            <img src="https://static.vecteezy.com/system/resources/previews/015/876/264/non_2x/success-payment-in-hand-illustration-in-flat-style-approved-money-illustration-on-isolated-background-successful-pay-sign-business-concept-vector.jpg" alt="" />
           </div>
         </div>
 

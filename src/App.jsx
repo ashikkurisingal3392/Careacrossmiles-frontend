@@ -15,6 +15,7 @@ import HelperCompleted from './helpers/pages/HelperCompleted'
 import HelperLayout from './helpers/pages/HelperLayout'
 import PaymentSuccess from './users/pages/PaymentSuccess'
 import PaymentError from './users/pages/PaymentError'
+import ProtectedRoute from './users/components/ProtectedRoute'
 
 
 function App() {
@@ -30,7 +31,11 @@ function App() {
       <Route path='/login' element={<Auth />}/>
       {/* user pages */}
 
-      <Route path='/dashboard' element={<Dashboard/>}/>
+      <Route path='/dashboard' element={
+        <ProtectedRoute>
+           <Dashboard/>
+        </ProtectedRoute>   
+        }/>
       <Route path='/caretask' element={<CareTask/>}/>
       <Route path='/appointment' element={<Appointment appointment/>}/>
       <Route path='/medicines' element={<Medicines medicine/>}/>
