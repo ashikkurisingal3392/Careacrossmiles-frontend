@@ -16,31 +16,35 @@ function UserSidebar() {
     const [userDetails, setUserDetails] = React.useState({})
 
     console.log(token);
-    
+
 
     useEffect(() => {
 
-        const storedToken=sessionStorage.getItem("token")
+        const storedToken = sessionStorage.getItem("token")
 
-        const storedUser=sessionStorage.getItem("existingUser")
+        const storedUser = sessionStorage.getItem("existingUser")
 
-        if(storedToken) setToken(storedToken)
-        
-         if(storedUser) {
+        if (storedToken) setToken(storedToken)
+
+        if (storedUser) {
             setUserDetails(JSON.parse(storedUser))
 
-         }
-         else{
+        }
+        else {
 
             setUserDetails({})
 
-         }
+        }
 
-    //     setToken(sessionStorage.getItem("token"))
+        //     setToken(sessionStorage.getItem("token"))
 
-    //    setUserDetails(JSON.parse(sessionStorage.getItem("existingUser")))
+        //    setUserDetails(JSON.parse(sessionStorage.getItem("existingUser")))
     }, [])
-    
+
+    if (!token || !userDetails || !userDetails.username) {
+        return null;
+    }
+
 
     return (
         <div className='h-full '>
@@ -78,12 +82,12 @@ function UserSidebar() {
                 <div className='flex flex-col items-start mx-3 gap-3'>
                     <h2 className='text-xs mb-0 text-gray-800'>OVER VIEW</h2>
                     <Link to={'/dashboard'} className='w-full'>
-                    <Button  className='flex gap-3 items-center justify-start h-12 p-2 hover:bg-linear-to-r/srgb from-yellow-600 to-green-700 w-full rounded-2xl ' style={{ backgroundColor: '#2c6e49' }}>
-                        <FcHome className='text-3xl border rounded-4xl p-1 border-yellow-400 bg-amber-100' />
-                        <h3 className='text-md font-bold text-yellow-200'>Dashboard</h3>
-                    </Button>
+                        <Button className='flex gap-3 items-center justify-start h-12 p-2 hover:bg-linear-to-r/srgb from-yellow-600 to-green-700 w-full rounded-2xl ' style={{ backgroundColor: '#2c6e49' }}>
+                            <FcHome className='text-3xl border rounded-4xl p-1 border-yellow-400 bg-amber-100' />
+                            <h3 className='text-md font-bold text-yellow-200'>Dashboard</h3>
+                        </Button>
                     </Link>
-                    
+
                     <Button className='flex gap-3 items-center justify-start h-12 p-2 hover:bg-linear-to-r/srgb from-yellow-600 to-green-700 w-full rounded-2xl ' style={{ backgroundColor: '#2c6e49' }}>
                         <ImUsers className='text-3xl border rounded-4xl p-1 border-yellow-400 bg-amber-100 text-gray-600' />
                         <h3 className='text-md font-bold text-yellow-200'>Family Members</h3>
@@ -100,24 +104,24 @@ function UserSidebar() {
                 <div className='flex flex-col items-start mx-3 gap-3 mt-5'>
                     <h2 className='text-xs mb-0 text-gray-800'>CARE</h2>
                     <Link to={'/caretask'} className='w-full'>
-                    
-                    <Button  className='flex gap-3 items-center justify-start h-12 p-2 hover:bg-linear-to-r/srgb from-yellow-600 to-green-700 w-full rounded-2xl ' style={{ backgroundColor: '#2c6e49' }}>
-                        <TiTick className='text-3xl border rounded-4xl p-1 border-yellow-400 bg-orange-200 text-green-500' />
-                        <h3 className='text-md font-bold text-yellow-200'>Care Tasks</h3>
-                    </Button>
+
+                        <Button className='flex gap-3 items-center justify-start h-12 p-2 hover:bg-linear-to-r/srgb from-yellow-600 to-green-700 w-full rounded-2xl ' style={{ backgroundColor: '#2c6e49' }}>
+                            <TiTick className='text-3xl border rounded-4xl p-1 border-yellow-400 bg-orange-200 text-green-500' />
+                            <h3 className='text-md font-bold text-yellow-200'>Care Tasks</h3>
+                        </Button>
                     </Link>
                     <Link to={'/appointment'} className='w-full'>
-                   
-                    <Button className='flex gap-3 items-center justify-start h-12 p-2 hover:bg-linear-to-r/srgb from-yellow-600 to-green-700 w-full rounded-2xl ' style={{ backgroundColor: '#2c6e49' }}>
-                        <FaHospital className='text-3xl border rounded-4xl p-1 border-yellow-400 bg-amber-100 text-red-600' />
-                        <h3 className='text-md font-bold text-yellow-200'>Appointments</h3>
-                    </Button>
-                     </Link>
-                     <Link to={'/medicines'} className='w-full'>
-                    <Button  className='flex gap-3 justify-start p-2 items-center h-12  w-full rounded-2xl hover:bg-linear-to-r/srgb from-yellow-600 to-green-700' style={{ backgroundColor: '#2c6e49' }}>
-                        <GiMedicines className='text-3xl border rounded-4xl p-1 border-yellow-400 bg-amber-100 text-yellow-600' />
-                        <h3 className='text-md font-bold text-yellow-200'>Medicines</h3>
-                    </Button>
+
+                        <Button className='flex gap-3 items-center justify-start h-12 p-2 hover:bg-linear-to-r/srgb from-yellow-600 to-green-700 w-full rounded-2xl ' style={{ backgroundColor: '#2c6e49' }}>
+                            <FaHospital className='text-3xl border rounded-4xl p-1 border-yellow-400 bg-amber-100 text-red-600' />
+                            <h3 className='text-md font-bold text-yellow-200'>Appointments</h3>
+                        </Button>
+                    </Link>
+                    <Link to={'/medicines'} className='w-full'>
+                        <Button className='flex gap-3 justify-start p-2 items-center h-12  w-full rounded-2xl hover:bg-linear-to-r/srgb from-yellow-600 to-green-700' style={{ backgroundColor: '#2c6e49' }}>
+                            <GiMedicines className='text-3xl border rounded-4xl p-1 border-yellow-400 bg-amber-100 text-yellow-600' />
+                            <h3 className='text-md font-bold text-yellow-200'>Medicines</h3>
+                        </Button>
                     </Link>
 
                 </div>
@@ -148,9 +152,9 @@ function UserSidebar() {
                                 <Avatar alt="User settings" img={userDetails.profile} rounded />
                             }
 
-                           className='bg-black! '
+                            className='bg-black! '
                         //    style={{ backgroundColor: '#ffffea' }}
-                            
+
                         >
 
                             <DropdownHeader className='hover:bg-green-950!'>
@@ -160,7 +164,7 @@ function UserSidebar() {
                             <DropdownItem className='hover:bg-green-950!'>Profile</DropdownItem>
                             {/* <DropdownItem>Settings</DropdownItem> */}
                             <DropdownDivider />
-                           <Link to={'/login'}><DropdownItem className='hover:bg-green-950!'>Sign out</DropdownItem></Link> 
+                            <Link to={'/login'}><DropdownItem className='hover:bg-green-950!'>Sign out</DropdownItem></Link>
                         </Dropdown>
                             :
                             <Dropdown
@@ -183,7 +187,7 @@ function UserSidebar() {
 
 
                         <div className='flex flex-col'>
-                            <h3 className='text-white text-md'>{userDetails?.username?userDetails.username:"User"}</h3>
+                            <h3 className='text-white text-md'>{userDetails?.username ? userDetails.username : "User"}</h3>
                             <h6 className='text-dark-600 text-sm'>London,UK . Admin</h6>
 
                         </div>
