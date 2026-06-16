@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { Route, Routes } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Route, Routes, useLocation, useNavigation } from 'react-router-dom'
 import Auth from './components/Auth'
 import Dashboard from './users/pages/Dashboard'
 import AdminDashboard from './admin/pages/AdminDashboard'
@@ -16,13 +16,36 @@ import HelperLayout from './helpers/pages/HelperLayout'
 import PaymentSuccess from './users/pages/PaymentSuccess'
 import PaymentError from './users/pages/PaymentError'
 import ProtectedRoute from './users/components/ProtectedRoute'
+import PageLoader from './users/components/PageLoader'
+import { Analytics } from "@vercel/analytics/next"
 
 
 function App() {
 
+  
+  // const[loading,setLoading]=useState(false)
+
+  // const location=useLocation()
+
+  // useEffect(()=>{
+
+
+  //   setLoading(true)
+
+  //   const timeout=setTimeout(() => {
+
+  //     setLoading(false)
+      
+  //   }, 300);
+  //   return ()=>clearTimeout(timeout)
+  // },[location.pathname])
+
 
   return (
     <>
+   
+   {/* {loading && <PageLoader/>} */}
+
 
     <Routes>
       <Route path='/' element={<LandingPage/>}/>

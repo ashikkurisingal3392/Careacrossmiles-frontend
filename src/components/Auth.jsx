@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BsHospital } from "react-icons/bs";
 import { MdOutlineFamilyRestroom } from "react-icons/md";
 import { Button, Card, Checkbox, Label, Select, TextInput } from "flowbite-react";
@@ -11,26 +11,26 @@ import { FaHandsHelping } from "react-icons/fa";
 import { Link } from "react-router-dom"
 import { FaArrowRight } from "react-icons/fa";
 
-function Auth({ mode,role }) {
+function Auth({ mode, role }) {
 
-    const isRegister =mode==="register"
-    const isHelper =role==="helper"
-    const isUser =role==="user"
+    const isRegister = mode === "register"
+    const isHelper = role === "helper"
+    const isUser = role === "user"
 
     const [userDetails, setUserDetails] = React.useState({
 
         username: "",
         email: "",
         password: "",
-        phone:"",
-        family:"",
-       helperDetails:{
-        skills:"",
-        availability:"",
-        experience:""
+        phone: "",
+        family: "",
+        helperDetails: {
+            skills: "",
+            availability: "",
+            experience: ""
 
 
-       }
+        }
     })
 
     const navigate = useNavigate()
@@ -51,11 +51,11 @@ function Auth({ mode,role }) {
 
             try {
 
-                const updatedUserdetails={
-                    ...userDetails,role:role || 'user'
+                const updatedUserdetails = {
+                    ...userDetails, role: role || 'user'
                 }
                 console.log(updatedUserdetails);
-                
+
                 const response = await registerAPI(updatedUserdetails)
                 console.log(response);
                 if (response.status === 201) {
@@ -146,7 +146,7 @@ function Auth({ mode,role }) {
 
                     sessionStorage.setItem('token', response.data.token)
                     sessionStorage.setItem('existingUser', JSON.stringify(response.data.existingUser))
-                  
+
                     if (response.data.existingUser.role === "user") {
                         setTimeout(() => {
                             navigate('/dashboard')
@@ -155,9 +155,9 @@ function Auth({ mode,role }) {
                         }, 2000);
 
                     }
-                    else if(response.data.existingUser.role === "helper"){
+                    else if (response.data.existingUser.role === "helper") {
 
-                         setTimeout(() => {
+                        setTimeout(() => {
                             navigate('/helperdashboard')
                             clearInputFields()
 
@@ -283,6 +283,7 @@ function Auth({ mode,role }) {
 
 
     }
+   
 
 
 
@@ -430,25 +431,25 @@ function Auth({ mode,role }) {
 
                                                 : ''}
 
-                                            {isRegister && isUser?
+                                            {isRegister && isUser ?
                                                 <div>
                                                     <div className="mb-2 block">
                                                         <Label htmlFor="familyGroup" color='gray'>Family group name  </Label>
                                                     </div>
-                                                    <TextInput onChange={(e)=>setUserDetails({...userDetails,family:e.target.value})} id="familyGroup" color='white'
+                                                    <TextInput onChange={(e) => setUserDetails({ ...userDetails, family: e.target.value })} id="familyGroup" color='white'
                                                         type="text" placeholder="eg: Ashik Family " required />
                                                 </div>
 
 
                                                 : ''}
 
-                                               
+
                                             {isRegister ?
                                                 <div>
                                                     <div className="mb-2 block">
                                                         <Label htmlFor="phone" color='gray'>Phone number  </Label>
                                                     </div>
-                                                    <TextInput onChange={(e)=>setUserDetails({...userDetails,phone:e.target.value})} id="phone" color='white'
+                                                    <TextInput onChange={(e) => setUserDetails({ ...userDetails, phone: e.target.value })} id="phone" color='white'
                                                         type='phone' placeholder="222 333 2222 " required />
                                                 </div>
 
@@ -462,54 +463,54 @@ function Auth({ mode,role }) {
                                                 <TextInput onChange={e => setUserDetails({ ...userDetails, email: e.target.value })} id="email1" color='white'
                                                     type="email" placeholder="name@gmail.com" required />
                                             </div>
-                                             {
-                                                    isRegister && isHelper?
-                                                     <div>
-                                                    <div className="mb-2 block">
-                                                        <Label htmlFor="familyGroup" color='gray'>Experience   </Label>
+                                            {
+                                                isRegister && isHelper ?
+                                                    <div>
+                                                        <div className="mb-2 block">
+                                                            <Label htmlFor="familyGroup" color='gray'>Experience   </Label>
+                                                        </div>
+                                                        <TextInput onChange={(e) => setUserDetails({ ...userDetails, helperDetails: { ...userDetails.helperDetails, experience: e.target.value } })} id="familyGroup" color='white'
+                                                            type="text" placeholder="eg: 2 years " />
                                                     </div>
-                                                    <TextInput onChange={(e)=>setUserDetails({...userDetails,helperDetails:{...userDetails.helperDetails,experience:e.target.value}})} id="familyGroup" color='white'
-                                                        type="text" placeholder="eg: 2 years "  />
-                                                </div>
-                                                    
-                                                    :""
-                                                }
-                                                 {
-                                                    isRegister && isHelper?
-                                                     <div>
-                                                    <div className="mb-2 block">
-                                                        <Label htmlFor="familyGroup" color='gray'>Availability   </Label>
+
+                                                    : ""
+                                            }
+                                            {
+                                                isRegister && isHelper ?
+                                                    <div>
+                                                        <div className="mb-2 block">
+                                                            <Label htmlFor="familyGroup" color='gray'>Availability   </Label>
+                                                        </div>
+                                                        <Select onChange={(e) => {
+                                                            setUserDetails({ ...userDetails, helperDetails: { ...userDetails.helperDetails, availability: e.target.value } })
+                                                        }} color='white'
+                                                            placeholder="choose your option"
+                                                        >
+                                                            <option>Full-time</option>
+                                                            <option>part-time</option>
+                                                        </Select>
                                                     </div>
-                                                    <Select onChange={(e)=>{
-                                                        setUserDetails({...userDetails,helperDetails:{...userDetails.helperDetails,availability:e.target.value}})
-                                                    }}  color='white'
-                                                       placeholder="choose your option" 
-                                                         >
-                                                         <option>Full-time</option>
-                                                         <option>part-time</option>
-                                                         </Select>
-                                                </div>
-                                                    
-                                                    :""
-                                                }
-                                                 {
-                                                    isRegister && isHelper?
-                                                     <div>
-                                                    <div className="mb-2 block">
-                                                        <Label htmlFor="familyGroup" color='gray'>Skills   </Label>
+
+                                                    : ""
+                                            }
+                                            {
+                                                isRegister && isHelper ?
+                                                    <div>
+                                                        <div className="mb-2 block">
+                                                            <Label htmlFor="familyGroup" color='gray'>Skills   </Label>
+                                                        </div>
+                                                        <TextInput multiple color='white' placeholder='eg:driving,plumbing,carer' onChange={
+                                                            (e) => setUserDetails({ ...userDetails, helperDetails: { ...userDetails.helperDetails, skills: e.target.value } })
+
+                                                        }
+
+                                                        >
+
+                                                        </TextInput>
                                                     </div>
-                                                    <TextInput  multiple color='white' placeholder='eg:driving,plumbing,carer' onChange={
-                                                        (e)=>setUserDetails({...userDetails,helperDetails:{...userDetails.helperDetails,skills:e.target.value}})
-                                                        
-                                                    }
-                                                       
-                                                         >
-                                                        
-                                                         </TextInput>
-                                                </div>
-                                                    
-                                                    :""
-                                                }
+
+                                                    : ""
+                                            }
                                             <div>
                                                 <div className="mb-2 block " >
                                                     <Label htmlFor="password1" color='gray' style={{ borderColor: 'red' }} > Password</Label>
@@ -526,7 +527,7 @@ function Auth({ mode,role }) {
                                         </div>
                                         :''} */}
 
-                                        
+
 
                                             {isRegister ?
                                                 <div className="flex items-center gap-2">
@@ -558,14 +559,14 @@ function Auth({ mode,role }) {
                                             <h3 className='text-sm text-center'>
                                                 {isRegister ? "Already have an account?" : "New to CareAcrossMiles?"}
                                                 <Link to={isRegister ? "/login" : "/register"} className='text-yellow-500'>{isRegister ? "Sign in" : "Create an account"}</Link></h3>
-                                                {/* <a href={isRegister ? "/login" : "/register"} className='text-yellow-500'>{isRegister ? "Sign in" : "Create an account"}</a></h3> */}
+                                            {/* <a href={isRegister ? "/login" : "/register"} className='text-yellow-500'>{isRegister ? "Sign in" : "Create an account"}</a></h3> */}
                                         </form>
                                     </Card>
                                 </div>
                                 <Link to={'/'}>
-                                <Button color="green" className='mt-5 bg-green-900! hover:translate-x-1 hover:bg-green-600!'>back to home page<FaArrowRight className='mx-2 ' /></Button>
-                                
-                                </Link> 
+                                    <Button color="green" className='mt-5 bg-green-900! hover:translate-x-1 hover:bg-green-600!'>back to home page<FaArrowRight className='mx-2 ' /></Button>
+
+                                </Link>
 
                             </div>
 
@@ -574,7 +575,7 @@ function Auth({ mode,role }) {
                         </div>
 
                         <div>
-                           
+
                         </div>
 
 
