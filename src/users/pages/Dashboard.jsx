@@ -366,7 +366,7 @@ function Dashboard() {
                   </div>
 
                   <Link>
-                  <h6 onClick={handleInvite} className='text-xs text-center text-green-600 border rounded-3xl p-2 w-16 h-8' style={{ borderColor: '#e5c185' }}>Invite</h6>
+                  <Button onClick={handleInvite} color={"brown"} className='text-xs text-center text-green-600 border rounded-3xl p-2 w-16 h-8' style={{ borderColor: '#e5c185' }}>Invite</Button>
                   </Link>
                   
                 </div>
