@@ -45,6 +45,11 @@ function UserSidebar() {
         return null;
     }
 
+    const handleLogout =()=>{
+
+        sessionStorage.clear()
+    }
+
 
     return (
         <div className='h-full '>
@@ -164,7 +169,7 @@ function UserSidebar() {
                             <DropdownItem className='hover:bg-green-950!'>Profile</DropdownItem>
                             {/* <DropdownItem>Settings</DropdownItem> */}
                             <DropdownDivider />
-                            <Link to={'/login'}><DropdownItem className='hover:bg-green-950!'>Sign out</DropdownItem></Link>
+                            <Link onClick={handleLogout} to={'/login'}><DropdownItem className='hover:bg-green-950!'>Sign out</DropdownItem></Link>
                         </Dropdown>
                             :
                             <Dropdown

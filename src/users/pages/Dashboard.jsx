@@ -12,7 +12,7 @@ import { IoIosAdd } from "react-icons/io";
 import { TiTick } from "react-icons/ti";
 import { IoLocation } from "react-icons/io5";
 import { Link } from 'react-router-dom';
-import { getAllHelpersAPI, getTasksAPI } from '../../../service/allAPIs';
+import { getAllHelpersAPI, getTasksAPI, sendEmailAPI } from '../../../service/allAPIs';
 import { searchContext } from '../../context/SearchContextTask';
 
 
@@ -108,6 +108,36 @@ function Dashboard() {
 
   // console.log(searchKey);
   
+  const handleInvite =async()=>{
+
+     const token = sessionStorage.getItem('token')
+
+      const reqHeader = {
+        Authorization: `Bearer ${token}`
+      }
+
+      const userData=JSON.parse(sessionStorage.getItem('existingUser')) 
+
+      const reqBody ={
+       email: userData.email
+
+      }
+
+    try{
+
+      const response =await sendEmailAPI(reqBody,reqHeader)
+
+      console.log(response);
+      
+
+    }
+    catch(err){
+
+      console.log(err);
+      
+    }
+
+  }
 
 
   return (
@@ -335,7 +365,10 @@ function Dashboard() {
                     <h6 className='text-xs text-gray-500'>4 members connected</h6>
                   </div>
 
-                  <h6 className='text-xs text-center text-green-600 border rounded-3xl p-2 w-16 h-8' style={{ borderColor: '#e5c185' }}>Invite</h6>
+                  <Link>
+                  <h6 onClick={handleInvite} className='text-xs text-center text-green-600 border rounded-3xl p-2 w-16 h-8' style={{ borderColor: '#e5c185' }}>Invite</h6>
+                  </Link>
+                  
                 </div>
                 <div className='flex justify-start items-center  gap-2 flex-wrap'>
                   <div className='border rounded-2xl flex flex-col justify-center items-center gap-2 p-2 w-32' style={{ borderColor: '#e5c185' }} >

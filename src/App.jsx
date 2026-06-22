@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
-import { Route, Routes, useLocation, useNavigation } from 'react-router-dom'
+
+import { Route, Routes } from 'react-router-dom'
 import Auth from './components/Auth'
 import Dashboard from './users/pages/Dashboard'
 import AdminDashboard from './admin/pages/AdminDashboard'
@@ -16,35 +16,18 @@ import HelperLayout from './helpers/pages/HelperLayout'
 import PaymentSuccess from './users/pages/PaymentSuccess'
 import PaymentError from './users/pages/PaymentError'
 import ProtectedRoute from './users/components/ProtectedRoute'
-import PageLoader from './users/components/PageLoader'
-import { Analytics } from "@vercel/analytics/next"
+
 
 
 function App() {
 
-  
-  // const[loading,setLoading]=useState(false)
 
-  // const location=useLocation()
-
-  // useEffect(()=>{
-
-
-  //   setLoading(true)
-
-  //   const timeout=setTimeout(() => {
-
-  //     setLoading(false)
-      
-  //   }, 300);
-  //   return ()=>clearTimeout(timeout)
-  // },[location.pathname])
 
 
   return (
     <>
    
-   {/* {loading && <PageLoader/>} */}
+
 
 
     <Routes>
@@ -59,25 +42,35 @@ function App() {
            <Dashboard/>
         </ProtectedRoute>   
         }/>
-      <Route path='/caretask' element={<CareTask/>}/>
-      <Route path='/appointment' element={<Appointment appointment/>}/>
-      <Route path='/medicines' element={<Medicines medicine/>}/>
+      <Route path='/caretask' element={
+          <ProtectedRoute>
+            <CareTask/>
+          </ProtectedRoute>
+        
+        }/>
+      <Route path='/appointment' element={
+       <ProtectedRoute>
+         <Appointment appointment/>
+      </ProtectedRoute>
+     }/>
+      <Route path='/medicines' element={
+         <ProtectedRoute><Medicines medicine/></ProtectedRoute>}/>
 
       {/* payment */}
 
-      <Route path='/paymentsuccess' element={<PaymentSuccess/>}/>
-        <Route path='/paymenterror' element={<PaymentError/>}/>
+      <Route path='/paymentsuccess' element={<ProtectedRoute><PaymentSuccess/></ProtectedRoute>}/>
+        <Route path='/paymenterror' element={<ProtectedRoute><PaymentError/></ProtectedRoute>}/>
 
       {/* admin pages */}
 
-      <Route path='/admin-home' element={<AdminDashboard/>}/>
+      <Route path='/admin-home' element={<ProtectedRoute><AdminDashboard/></ProtectedRoute>}/>
       {/* helper pages */}
 
-       <Route path='/helperdashboard' element={<HelperDashboard/>}/>
-        <Route path='/helpertask' element={<HelperTask/>}/>
+       <Route path='/helperdashboard' element={<ProtectedRoute><HelperDashboard/></ProtectedRoute>}/>
+        <Route path='/helpertask' element={<ProtectedRoute><HelperTask/></ProtectedRoute>}/>
          {/* <Route path='/helperprofile' element={<HelperProfile/>}/> */}
-         <Route path='/helperprofile' element={<HelperLayout/>}/>
-            <Route path='/helpercompleted' element={<HelperCompleted/>}/>
+         <Route path='/helperprofile' element={<ProtectedRoute><HelperLayout/></ProtectedRoute>}/>
+            <Route path='/helpercompleted' element={<ProtectedRoute><HelperCompleted/></ProtectedRoute>}/>
 
 
        <Route path='*' element={<PageNotFound/>}/>

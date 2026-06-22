@@ -185,3 +185,9 @@ export const makePaymentAPI=async(id,reqBody,reqHeader)=>{
     return await commonAPI("PUT",`${serverURL}/api/makepayment/${id}`,reqBody,reqHeader)
 
 }
+
+export const sendEmailAPI=async(reqBody,reqHeader)=>{
+
+    return await commonAPI("POST",`${serverURL}/api/sendemail`,reqBody,reqHeader)
+
+}
