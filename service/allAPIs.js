@@ -18,6 +18,16 @@ export const loginAPI=async(reqBody)=>{
 
 }
 
+//2.1 verify login 
+
+
+export const verifyOtpAPI=async(reqBody)=>{
+
+    return await commonAPI("POST",`${serverURL}/api/verify-otp`,reqBody,"")
+
+}
+
+
 //3.google login
 
 export const googleLoginAPI=async(reqBody)=>{

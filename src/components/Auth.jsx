@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { BsHospital } from "react-icons/bs";
 import { MdOutlineFamilyRestroom } from "react-icons/md";
 import { Button, Card, Checkbox, Label, Select, TextInput } from "flowbite-react";
-import { googleLoginAPI, loginAPI, registerAPI } from '../../service/allAPIs';
+import { googleLoginAPI, loginAPI, registerAPI, verifyOtpAPI } from '../../service/allAPIs';
 import { ToastContainer, toast, Bounce } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
@@ -16,6 +16,12 @@ function Auth({ mode, role }) {
     const isRegister = mode === "register"
     const isHelper = role === "helper"
     const isUser = role === "user"
+
+    //otp field and otp
+
+    const [otp, setOtp] = useState("")
+    const [loginEmail, setLoginEmail] = useState("")
+    const [showOtpField, setShowOtpField] = useState(false)
 
     const [userDetails, setUserDetails] = React.useState({
 
@@ -130,47 +136,65 @@ function Auth({ mode, role }) {
 
                 const response = await loginAPI(userDetails)
                 console.log(response);
+
                 if (response.status === 200) {
+
+                    toast.dismiss();
 
                     toast.success(response.data.message, {
                         position: "top-center",
                         autoClose: 2000,
                         hideProgressBar: false,
-                        closeOnClick: false,
-                        pauseOnHover: true,
+                        closeOnClick: true,
+                        pauseOnHover: false,
                         draggable: true,
-                        progress: undefined,
                         theme: "light",
                         transition: Bounce,
-                    });
+                    })
 
-                    sessionStorage.setItem('token', response.data.token)
-                    sessionStorage.setItem('existingUser', JSON.stringify(response.data.existingUser))
+                    setLoginEmail(response.data.email)
 
-                    if (response.data.existingUser.role === "user") {
-                        setTimeout(() => {
-                            navigate('/dashboard')
-                            clearInputFields()
+                    setShowOtpField(true)
 
-                        }, 2000);
+                    // toast.success(response.data.message, {
+                    //     position: "top-center",
+                    //     autoClose: 2000,
+                    //     hideProgressBar: false,
+                    //     closeOnClick: false,
+                    //     pauseOnHover: true,
+                    //     draggable: true,
+                    //     progress: undefined,
+                    //     theme: "light",
+                    //     transition: Bounce,
+                    // });
 
-                    }
-                    else if (response.data.existingUser.role === "helper") {
+                    // sessionStorage.setItem('token', response.data.token)
+                    // sessionStorage.setItem('existingUser', JSON.stringify(response.data.existingUser))
 
-                        setTimeout(() => {
-                            navigate('/helperdashboard')
-                            clearInputFields()
+                    // if (response.data.existingUser.role === "user") {
+                    //     setTimeout(() => {
+                    //         navigate('/dashboard')
+                    //         clearInputFields()
 
-                        }, 2000);
+                    //     }, 2000);
 
-                    }
-                    else {
-                        setTimeout(() => {
-                            navigate('/admin-home')
-                            clearInputFields()
+                    // }
+                    // else if (response.data.existingUser.role === "helper") {
 
-                        }, 2000);
-                    }
+                    //     setTimeout(() => {
+                    //         navigate('/helperdashboard')
+                    //         clearInputFields()
+
+                    //     }, 2000);
+
+                    // }
+                    // else {
+                    //     setTimeout(() => {
+                    //         navigate('/admin-home')
+                    //         clearInputFields()
+
+                    //     }, 2000);
+                    // }
 
 
                 }
@@ -178,14 +202,9 @@ function Auth({ mode, role }) {
             catch (err) {
 
                 console.log(err);
-                toast.error(err.response.data.message, {
+                toast.error(err.response?.data?.message, {
                     position: "top-center",
                     autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: false,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
                     theme: "light",
                     transition: Bounce,
                 });
@@ -210,6 +229,67 @@ function Auth({ mode, role }) {
         }
 
 
+
+
+    }
+
+    const handleVerifyOtp = async () => {
+
+        if (!otp) {
+            toast.info("Please enter your OTP")
+            return
+        }
+
+        const reqBody = {
+            email: loginEmail,
+            otp
+        }
+
+        try {
+
+            const response = await verifyOtpAPI(reqBody)
+
+            console.log(response);
+
+
+            if (response.status === 200) {
+
+                toast.success(response.data.message, {
+                    position: "top-center",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: false,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Bounce,
+                });
+
+                sessionStorage.setItem('token', response.data.token)
+                sessionStorage.setItem('existingUser', JSON.stringify(response.data.existingUser))
+
+                const role = response.data.existingUser.role
+
+                setTimeout(() => {
+
+                    if (role === "user") navigate('/dashboard')
+                    else if (role === "helper") navigate('/helperdashboard')
+                    else navigate('/admin-home')
+                    clearInputFields()
+
+                }, 2000);
+
+            }
+
+
+        }
+        catch (err) {
+
+            toast.error(err.response?.data?.message || "Invalid OTP");
+
+
+        }
 
 
     }
@@ -283,7 +363,7 @@ function Auth({ mode, role }) {
 
 
     }
-   
+
 
 
 
@@ -384,7 +464,9 @@ function Auth({ mode, role }) {
 
                                         :
                                         <div className="mt-5 ">
-                                            <GoogleLogin
+                                            {
+                                                !showOtpField && (
+                                                        <GoogleLogin
                                                 onSuccess={credentialResponse => {
                                                     console.log(credentialResponse);
 
@@ -394,6 +476,11 @@ function Auth({ mode, role }) {
                                                     console.log('Login Failed');
                                                 }}
                                             />
+
+
+                                                )
+                                            }
+                                        
 
                                         </div>
 
@@ -460,7 +547,7 @@ function Auth({ mode, role }) {
                                                 <div className="mb-2 block">
                                                     <Label htmlFor="email1" color='gray'>Email address </Label>
                                                 </div>
-                                                <TextInput onChange={e => setUserDetails({ ...userDetails, email: e.target.value })} id="email1" color='white'
+                                                <TextInput onChange={e => setUserDetails({ ...userDetails, email: e.target.value })} disabled={showOtpField} id="email1" color='white'
                                                     type="email" placeholder="name@gmail.com" required />
                                             </div>
                                             {
@@ -515,7 +602,7 @@ function Auth({ mode, role }) {
                                                 <div className="mb-2 block " >
                                                     <Label htmlFor="password1" color='gray' style={{ borderColor: 'red' }} > Password</Label>
                                                 </div>
-                                                <TextInput onChange={e => setUserDetails({ ...userDetails, password: e.target.value })} id="password1" color='white' type="password" required />
+                                                <TextInput onChange={e => setUserDetails({ ...userDetails, password: e.target.value })} disabled={showOtpField} id="password1" color='white' type="password" required />
                                             </div>
                                             {/* {register?
                                         
@@ -527,6 +614,28 @@ function Auth({ mode, role }) {
                                         </div>
                                         :''} */}
 
+                                            {/* otp field */}
+
+                                            {
+                                                showOtpField && !isRegister && (
+                                                    <div>
+                                                        <div className="mb-2 block">
+                                                            <Label htmlFor="otp" color="gray">Enter OTP</Label>
+                                                        </div>
+                                                        <TextInput
+                                                            id="otp"
+                                                            color="white"
+                                                            type="text"
+                                                            placeholder="Enter 6-digit OTP"
+                                                            value={otp}
+                                                            onChange={(e) => setOtp(e.target.value)}
+                                                        />
+                                                    </div>
+
+
+
+                                                )
+                                            }
 
 
                                             {isRegister ?
@@ -544,15 +653,22 @@ function Auth({ mode, role }) {
                                                         <Label htmlFor="remember" color='gray'>keep me signed in on this device</Label>
 
                                                     </div>
-                                                    <h3 className='text-yellow-500 text-sm'>forgot password?</h3>
+                                                    {
+                                                        !showOtpField &&(
+                                                             <h3 className='text-yellow-500 text-sm'>forgot password?</h3>
+
+                                                        )
+                                                    }
+                                                   
                                                 </div>
                                             }
 
                                             {
                                                 isRegister ? <Button onClick={handleRegister} type="button" color='green'>
                                                     Create Account</Button> :
-                                                    <Button onClick={handleLogin} type="button" color='green'>
-                                                        Sign in</Button>
+
+                                                    <Button onClick={showOtpField ? handleVerifyOtp : handleLogin} type="button" color='green'>
+                                                        {showOtpField ? "Verify OTP" : "Sign in"} </Button>
                                             }
 
 
