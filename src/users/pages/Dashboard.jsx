@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import UserHeader from '../components/UserHeader'
 import UserSidebar from '../components/UserSidebar'
 import { Button, TextInput } from 'flowbite-react'
@@ -25,6 +25,8 @@ function Dashboard() {
   const[dummyTasks,setDummyTasks]=React.useState([])
 
   const { searchKey,setSearchKey } = useContext(searchContext)
+
+  const[inviteLoading,setInviteLoading]=useState(false)
 
   useEffect(() => {
 
@@ -110,6 +112,8 @@ function Dashboard() {
   
   const handleInvite =async()=>{
 
+    setInviteLoading(true)
+
      const token = sessionStorage.getItem('token')
 
       const reqHeader = {
@@ -141,6 +145,9 @@ function Dashboard() {
 
       console.log(err);
       
+    }
+    finally{
+      setInviteLoading(false)
     }
 
   }
@@ -372,7 +379,8 @@ function Dashboard() {
                   </div>
 
                 
-                  <Button onClick={handleInvite} color={"brown"} className='text-xs text-center text-green-600 border rounded-3xl p-2 w-16 h-8' style={{ borderColor: '#e5c185' }}>Invite</Button>
+                  <Button onClick={handleInvite} disabled={inviteLoading} color={"brown"} className='text-xs text-center text-green-600 border rounded-3xl p-2 w-16 h-8' style={{ borderColor: '#e5c185' }}>
+                   {inviteLoading?"Sending...":"Invite"}</Button>
                 
                   
                 </div>
