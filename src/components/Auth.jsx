@@ -150,11 +150,15 @@ function Auth({ mode, role }) {
                         draggable: true,
                         theme: "light",
                         transition: Bounce,
+                        toastId: "otp-sent",
                     })
 
-                    setLoginEmail(response.data.email)
+                    setLoginEmail(userDetails.email)
 
                     setShowOtpField(true)
+                    setTimeout(() => {
+                        toast.dismiss("otp-sent");
+                    }, 2000);
 
                     // toast.success(response.data.message, {
                     //     position: "top-center",
@@ -466,21 +470,21 @@ function Auth({ mode, role }) {
                                         <div className="mt-5 ">
                                             {
                                                 !showOtpField && (
-                                                        <GoogleLogin
-                                                onSuccess={credentialResponse => {
-                                                    console.log(credentialResponse);
+                                                    <GoogleLogin
+                                                        onSuccess={credentialResponse => {
+                                                            console.log(credentialResponse);
 
-                                                    handleGoogleLogin(credentialResponse.credential)
-                                                }}
-                                                onError={() => {
-                                                    console.log('Login Failed');
-                                                }}
-                                            />
+                                                            handleGoogleLogin(credentialResponse.credential)
+                                                        }}
+                                                        onError={() => {
+                                                            console.log('Login Failed');
+                                                        }}
+                                                    />
 
 
                                                 )
                                             }
-                                        
+
 
                                         </div>
 
@@ -654,12 +658,12 @@ function Auth({ mode, role }) {
 
                                                     </div>
                                                     {
-                                                        !showOtpField &&(
-                                                             <h3 className='text-yellow-500 text-sm'>forgot password?</h3>
+                                                        !showOtpField && (
+                                                            <h3 className='text-yellow-500 text-sm'>forgot password?</h3>
 
                                                         )
                                                     }
-                                                   
+
                                                 </div>
                                             }
 
