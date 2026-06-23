@@ -123,6 +123,9 @@ function Dashboard() {
 
       }
 
+      console.log(reqBody);
+      
+
     try{
 
       const response =await sendEmailAPI(reqBody,reqHeader)
@@ -132,6 +135,9 @@ function Dashboard() {
 
     }
     catch(err){
+
+       console.log("Error response:", err.response?.data);
+       console.log("Status:", err.response?.status);
 
       console.log(err);
       
@@ -365,9 +371,9 @@ function Dashboard() {
                     <h6 className='text-xs text-gray-500'>4 members connected</h6>
                   </div>
 
-                  <Link>
+                
                   <Button onClick={handleInvite} color={"brown"} className='text-xs text-center text-green-600 border rounded-3xl p-2 w-16 h-8' style={{ borderColor: '#e5c185' }}>Invite</Button>
-                  </Link>
+                
                   
                 </div>
                 <div className='flex justify-start items-center  gap-2 flex-wrap'>
